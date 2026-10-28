@@ -1,0 +1,20 @@
+@startuml
+!include estilo.iuml
+title Diagrama de contexto (C4 nível 1)
+left to right direction
+rectangle "**Paciente**\n<size:10>[Pessoa]</size>\n\nClassificado como verde ou azul\nem triagem presencial e elegível\nao canal remoto" <<pessoa>> as paciente
+rectangle "**Enfermagem**\n<size:10>[Pessoa]</size>\n\nRealiza a classificação de risco,\nafere sinais vitais e reavalia\no paciente durante a espera" <<pessoa>> as enf
+rectangle "**Médico remoto**\n<size:10>[Pessoa]</size>\n\nConduz a teleconsulta e\nregistra o desfecho" <<pessoa>> as med
+rectangle "**Gestor da unidade**\n<size:10>[Pessoa]</size>\n\nAcompanha a operação\ne recebe alertas" <<pessoa>> as gestor
+rectangle "**Plataforma de teleconsulta**\n**pós-triagem em totem**\n<size:10>[Sistema de software]</size>\n\nIdentifica o paciente, verifica a\nelegibilidade, registra consentimento\ne queixa, conduz a teleconsulta e\nenvia o registro clínico à rede nacional" <<sistema>> as sis
+rectangle "**RNDS**\n<size:10>[Sistema externo]</size>\n\nRede Nacional de Dados em Saúde\n(HL7 FHIR R4)" <<externo>> as rnds
+rectangle "**e-SUS APS / PEC**\n<size:10>[Sistema externo, opcional]</size>\n\nRegistro da atenção primária" <<externo>> as esus
+rectangle "**Serviço de mensagens**\n<size:10>[Sistema externo]</size>\n\nEnvio de orientações\nao paciente (SMS)" <<externo>> as sms
+paciente --> sis : usa o totem
+enf --> sis : registra triagem,\nsinais vitais e reavaliações
+med --> sis : realiza a teleconsulta
+gestor --> sis : monitora e configura
+sis --> rnds : consulta histórico e\nenvia o RAC [HTTPS, mTLS]
+sis --> esus : consulta registro da APS\n[quando disponível]
+sis --> sms : envia orientações
+@enduml

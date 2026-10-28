@@ -1,0 +1,103 @@
+\label{sec:metodologia}
+
+\subsecao{Delineamento do estudo}
+
+Trata-se de pesquisa aplicada, de natureza propositiva e abordagem qualitativa, conduzida segundo o paradigma de \textit{Design Science Research} (DSR). Nesse paradigma, um artefato é projetado para resolver um problema relevante, a partir de uma base de conhecimento explícita, e é submetido a avaliação antes de qualquer afirmação sobre seus efeitos \cite{hevner2004}. O artefato deste trabalho é uma arquitetura de software, documentada por modelos, especificações e decisões.
+
+O estudo seguiu as atividades do processo de DSR descrito por Peffers et al. \cite{peffers2007}, adaptadas ao escopo de uma proposição sem implementação. A Tabela~\ref{tab:dsr} relaciona cada atividade ao procedimento adotado e à seção em que o resultado é apresentado.
+
+\begin{table}[H]
+\centering
+\caption{Atividades de \textit{Design Science Research} e procedimentos adotados}
+\label{tab:dsr}
+\footnotesize
+\begin{tabularx}{\textwidth}{L{3.6cm} Y L{2.6cm}}
+\toprule
+\textbf{Atividade} & \textbf{Procedimento neste trabalho} & \textbf{Onde está} \\
+\midrule
+Identificação do problema e motivação & Revisão narrativa protocolada sobre superlotação, baixo risco e triagem & Capítulos 1 e 2 \\
+Definição dos objetivos da solução & Derivação de requisitos rastreáveis às fontes e aos riscos & Seção~\ref{sec:res-requisitos} \\
+Projeto e desenvolvimento & Síntese arquitetural em camadas, modelo C4, critérios clínicos e especificação de integração & Seções 4.2 a 4.6 \\
+Demonstração & Descrição do fluxo de atendimento completo, em visão didática e em diagrama de sequência & Seção 4.2 \\
+Avaliação & Avaliação analítica prévia: cenários de qualidade, verificação de conformidade e análise de cobertura & Seção~\ref{sec:res-avaliacao} \\
+Comunicação & Artigo no CBIS 2026 e esta monografia & -- \\
+\bottomrule
+\end{tabularx}
+\fonte{Elaboração própria, a partir de Peffers et al. \cite{peffers2007}.}
+\end{table}
+
+A atividade de demonstração, que em DSR costuma envolver o uso do artefato em uma situação concreta, foi limitada à descrição do fluxo completo de atendimento. Não houve protótipo nem simulação executável, o que é tratado como limitação.
+
+\subsecao{Protocolo da revisão narrativa}
+
+A revisão teve por finalidade delimitar o problema, identificar soluções já discutidas e reunir os condicionantes técnicos, assistenciais, regulatórios e éticos da proposta. As buscas foram feitas nas bases PubMed/MEDLINE, SciELO e Biblioteca Virtual em Saúde (LILACS), complementadas por busca dirigida nos portais oficiais da Presidência da República, da Câmara dos Deputados, do Ministério da Saúde e do Conselho Federal de Medicina, para legislação, resoluções e guias técnicos não indexados, e nos sítios das organizações responsáveis por padrões técnicos (HL7 International, W3C e ISO).
+
+Foram combinados, por operadores booleanos, descritores dos vocabulários DeCS e MeSH e termos livres em português e inglês relativos aos seis eixos da revisão, apresentados na Tabela~\ref{tab:eixos}. O recorte temporal foi de 2013 a 2026 para a literatura científica, sem restrição de data para normas e guias técnicos, considerados na versão vigente na data da consulta. Referências metodológicas clássicas, como as de DSR e do método ATAM, foram incluídas por sua relevância para o método, independentemente da data.
+
+\begin{table}[H]
+\centering
+\caption{Eixos da revisão narrativa e finalidade de cada um}
+\label{tab:eixos}
+\footnotesize
+\begin{tabularx}{\textwidth}{L{4.2cm} Y}
+\toprule
+\textbf{Eixo} & \textbf{Finalidade na proposta} \\
+\midrule
+(i) Superlotação dos serviços de urgência & Delimitar o problema e o alcance possível de uma intervenção sobre a entrada \\
+(ii) Perfil dos pacientes de baixo risco & Compreender motivos da procura e segurança do encaminhamento \\
+(iii) Protocolo de Manchester & Fundamentar a classificação como pré-requisito e seus limites \\
+(iv) Totens e autoatendimento em saúde & Identificar ganhos, barreiras e limites da autotriagem \\
+(v) Telemedicina e marco regulatório & Extrair exigências éticas e legais do atendimento remoto \\
+(vi) Interoperabilidade e proteção de dados & Extrair exigências técnicas da RNDS e obrigações da LGPD \\
+\bottomrule
+\end{tabularx}
+\fonte{Elaboração própria.}
+\end{table}
+
+Foram incluídas fontes com texto completo disponível, em português, inglês ou espanhol, que tratassem de ao menos um dos seis eixos. Foram excluídos editoriais sem dados, materiais promocionais e estudos restritos a contextos incompatíveis com o atendimento remoto de baixo risco. O número de registros recuperados em cada base não é reportado neste trabalho, o que impede a reprodução quantitativa da busca e reforça o caráter narrativo, e não sistemático, da revisão.
+
+O corpus final é formado pelas 44 referências deste trabalho: 18 artigos científicos, 10 documentos normativos (leis, resoluções e portarias), 5 documentos técnicos do Ministério da Saúde sobre a RNDS e o RAC, 6 padrões e documentos técnicos de outras organizações e 5 referências de método e ferramentas. Na preparação desta monografia, os dados bibliográficos de todas as referências foram conferidos nas fontes primárias, e os achados citados foram verificados no texto original de cada uma.
+
+\subsecao{Derivação dos requisitos}
+
+Cada eixo produziu dois tipos de insumo: asserções de evidência, extraídas dos estudos, e exigências normativas, extraídas das leis, resoluções, portarias e guias técnicos. Cada insumo foi convertido em requisito funcional (RF) ou não funcional (RNF). Para cada requisito foram identificados o risco associado ao seu descumprimento e o componente responsável por atendê-lo. Esses vínculos foram registrados em uma matriz de rastreabilidade, construída com duas regras: nenhum requisito pode derivar de fonte não declarada, e nenhum componente pode existir sem um requisito que o justifique.
+
+Os requisitos não funcionais foram classificados segundo as características de qualidade de produto da ISO/IEC 25010 \cite{iso25010}. Os critérios clínicos de elegibilidade, reavaliação e retorno foram tratados como requisitos de domínio e detalhados separadamente, por dependerem de validação clínica e de pactuação institucional.
+
+\subsecao{Síntese arquitetural}
+
+A arquitetura foi descrita em camadas funcionais e documentada com o modelo C4 nos níveis de contexto, contêineres e componentes \cite{brownc4}, complementado por diagrama de sequência UML do fluxo de atendimento. Os diagramas foram escritos em texto com a ferramenta PlantUML \cite{plantuml}, o que permite versioná-los junto com o texto. Para facilitar a compreensão por leitores sem formação técnica, foi elaborada também uma representação didática do fluxo, centrada no que cada participante faz e vê.
+
+Duas decisões antecederam a modelagem. A primeira foi preservar a classificação de risco presencial por enfermeiro treinado no Protocolo de Manchester, justificada pela baixa concordância entre autotriagem eletrônica e triagem profissional \cite{dickson2022}. A segunda foi isolar a integração com sistemas externos em um gateway dedicado, estratégia alinhada à arquitetura modular de baixo acoplamento descrita por Gøeg et al. \cite{goeg2018}. As demais decisões foram registradas no formato de contexto, decisão, alternativas consideradas e consequências.
+
+\subsecao{Avaliação analítica prévia}
+
+Como não há protótipo, a proposta foi avaliada analiticamente, antes de qualquer implementação, por três procedimentos complementares conduzidos pelo autor.
+
+\subsubsecao{Análise baseada em cenários}
+
+Inspirada no método ATAM \cite{kazman1998}, a análise confrontou a arquitetura com cenários que descrevem um estímulo, o contexto em que ocorre e a resposta esperada. Para cada cenário foram identificados os componentes envolvidos, a resposta prevista pela arquitetura e o resultado da análise, em três categorias: atendido em projeto, parcialmente atendido ou não verificável sem protótipo. Os cenários foram escolhidos para cobrir os riscos de maior consequência identificados na revisão: piora clínica durante a espera, falhas de rede e da RNDS, privacidade em ambiente público, mudanças nos perfis nacionais, acessibilidade e uso indevido do canal.
+
+\subsubsecao{Verificação de conformidade}
+
+A verificação usou uma lista de checagem construída a partir dos dispositivos das normas e guias técnicos que se aplicam ao caso de uso: Lei n.º 14.510/2022 \cite{lei14510}, Resolução CFM n.º 2.314/2022 \cite{cfm2314}, LGPD \cite{lgpd2018}, Lei n.º 13.787/2018 \cite{lei13787}, Portaria GM/MS n.º 3.691/2024 \cite{portaria3691}, Portaria SAES/MS n.º 234/2022 \cite{portaria234}, Guia de Integração da RNDS \cite{rndsconector, rndsambientes, rndserros} e referências de acessibilidade \cite{lbi2015, nbr9050, emag, wcag21}. Cada item foi classificado em uma de três categorias:
+\begin{itemize}
+    \item \textbf{atendido em projeto}: a arquitetura especifica o mecanismo que cumpre a exigência;
+    \item \textbf{parcialmente atendido}: a arquitetura prevê o mecanismo, mas o cumprimento depende de decisões de implantação local, organizacionais ou contratuais;
+    \item \textbf{não verificável}: a verificação exige protótipo, certificação ou acesso ao ambiente de homologação da RNDS.
+\end{itemize}
+A lista completa está no Apêndice~\ref{ap:checklist}.
+
+\subsubsecao{Análise de cobertura}
+
+A análise de cobertura verificou, sobre a matriz de rastreabilidade, se todo requisito está associado a pelo menos um componente e se todo componente responde a pelo menos um requisito. A matriz de cobertura está no Apêndice~\ref{ap:cobertura}.
+
+\subsubsecao{Limites da avaliação}
+
+Os três procedimentos foram conduzidos pelo próprio autor, sem especialistas externos, protótipo funcional, dados reais de pacientes ou acesso ao ambiente de homologação da RNDS. Seus resultados expressam a consistência interna do projeto e sua aderência documental às normas. Eles não medem desempenho, usabilidade, resolutividade nem segurança operacional.
+
+\subsecao{Aspectos éticos}
+
+O estudo consiste em proposta técnica e conceitual, sem coleta de dados primários, sem testes com usuários ou profissionais e sem uso de dados reais de pacientes. Por não envolver participantes humanos, não foi submetido a Comitê de Ética em Pesquisa, conforme a Resolução CNS n.º 510/2016 \cite{cns510}. Os aspectos legais e éticos do tratamento de dados sensíveis pela tecnologia proposta foram incorporados como requisitos da arquitetura. Etapas futuras de validação com pacientes, profissionais ou dados clínicos deverão ser precedidas de apreciação ética.
+
+Ferramentas de inteligência artificial generativa foram usadas como apoio à revisão linguística, à organização do texto, à conferência de referências e à produção das figuras a partir de descrições textuais. As decisões de método, a interpretação das fontes, a definição da arquitetura e dos critérios e a análise dos resultados são de responsabilidade do autor, e os dados citados foram conferidos nas fontes primárias.

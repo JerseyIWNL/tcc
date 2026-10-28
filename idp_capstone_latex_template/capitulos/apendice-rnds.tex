@@ -1,0 +1,50 @@
+Este apêndice ilustra a sequência de requisições do gateway FHIR à RNDS, a partir do Guia de Integração \cite{rndsconector, rndsambientes, rndserros}. Os trechos entre chaves são marcadores. O caminho exato do serviço de token e o conteúdo do documento clínico devem seguir a documentação vigente na data da implantação, em especial o modelo computacional do RAC.
+
+\medskip\noindent{\color{fundo_idp}\bfseries Obtenção do token de acesso}\par\smallskip
+
+A requisição usa o certificado digital do estabelecimento de saúde na conexão TLS. A resposta traz o token, seu tipo e a validade, de 30 minutos no exemplo do guia \cite{rndsconector}.
+
+\begin{lstlisting}
+GET https://ehr-auth-hmg.saude.gov.br/{caminho-do-servico-de-token}
+(conexão TLS autenticada com o certificado digital do estabelecimento)
+
+Resposta 200:
+{
+  "access_token": "{token}",
+  "scope": "read write",
+  "token_type": "jwt",
+  "expires_in": 1800000
+}
+\end{lstlisting}
+
+\medskip\noindent{\color{fundo_idp}\bfseries Envio do documento}\par\smallskip
+
+O envio é feito ao serviço clínico do ambiente, que em produção é o endereço da unidade federativa \cite{rndsambientes}. O cabeçalho \texttt{X-Authorization-Server} leva o token e o cabeçalho \texttt{Authorization} leva o CNS do profissional lotado no estabelecimento \cite{rndsconector, rndserros}.
+
+\begin{lstlisting}
+POST https://{uf}-ehr-services.saude.gov.br/api/fhir/r4/Bundle
+Content-Type: application/fhir+json
+X-Authorization-Server: Bearer {token}
+Authorization: {CNS do profissional requisitante}
+
+{
+  "resourceType": "Bundle",
+  "type": "document",
+  "identifier": {
+    "system": "{sistema de identificação do solicitante, conforme o guia}",
+    "value": "{identificador único do atendimento}"
+  },
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:{uuid}",
+      "resource": {
+        "resourceType": "Composition",
+        "status": "final",
+        "...": "{demais elementos conforme o modelo computacional do RAC}"
+      }
+    }
+  ]
+}
+\end{lstlisting}
+
+O identificador do documento deve ser único: o reenvio de um documento já recebido é rejeitado com o erro EHR-ERR866, que o gateway trata como confirmação de envio anterior. O status do documento deve ser \texttt{final}, sob pena do erro EHR-ERR924 \cite{rndserros}.

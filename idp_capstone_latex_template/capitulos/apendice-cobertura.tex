@@ -1,0 +1,33 @@
+A matriz abaixo lista, para cada um dos 16 componentes, os requisitos da Tabela~\ref{tab:rastreabilidade} a que ele responde. O requisito RNF7, de baixo acoplamento, aplica-se a todos os serviços; nesta matriz ele foi atribuído apenas aos componentes que materializam diretamente o isolamento (Gateway FHIR e Fila de mensagens).
+
+\begin{table}[H]
+\centering
+\caption{Cobertura entre componentes e requisitos}
+\label{tab:cobertura}
+\footnotesize
+\begin{tabularx}{\textwidth}{L{5.0cm} Y c}
+\toprule
+\textbf{Componente} & \textbf{Requisitos atendidos} & \textbf{Total} \\
+\midrule
+Aplicação do totem & RF1, RF3, RF4, RF5, RF6, RF7, RNF1, RNF3, RNF4, RNF6 & 10 \\
+Estação de enfermagem & RF1, RF2, RF6, RNF6 & 4 \\
+Estação do médico & RF2, RF4, RF5, RF8, RF9 & 5 \\
+Painel do gestor & RNF9 & 1 \\
+API Gateway & RNF3, RNF8 & 2 \\
+Plataforma de teleconsulta & RF8 & 1 \\
+Gestão de Atendimentos & RF1, RF3, RF5, RF8, RNF1 & 5 \\
+Reavaliação e Alertas & RF6 & 1 \\
+Prontuário Local & RF2, RF4, RF7, RF9 & 4 \\
+Autenticação e Autorização & RNF8 & 1 \\
+Notificações & RF6, RF9, RNF5 & 3 \\
+Auditoria & RNF3 & 1 \\
+Gateway FHIR & RF3, RF10, RNF2, RNF5, RNF7 & 5 \\
+Fila de mensagens & RF10, RNF5, RNF7 & 3 \\
+Banco de dados & RNF3 & 1 \\
+Registro de auditoria & RNF3 & 1 \\
+\bottomrule
+\end{tabularx}
+\fonte{Elaboração própria.}
+\end{table}
+
+Todos os 19 requisitos aparecem em pelo menos uma linha, e todos os 16 componentes têm ao menos um requisito associado.

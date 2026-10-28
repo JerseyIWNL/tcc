@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;width:1400px;padding:36px;background:#fff;color:#1A1F2E}
+.wrap{display:grid;grid-template-columns:1fr 230px;gap:18px}
+.cam{border-radius:14px;padding:18px 22px;margin-bottom:14px;color:#fff;position:relative}
+.cam h3{font-size:24px;margin-bottom:6px}
+.cam p{font-size:18px;line-height:1.38}
+.cam .n{position:absolute;right:20px;top:14px;font-size:15px;font-weight:bold;opacity:.85;letter-spacing:.5px}
+.c1{background:#0B3D6E}.c2{background:#1360A8}.c3{background:#2F7CC4}.c4{background:#5B9AD6}
+.seta{text-align:center;color:#8A97AB;font-size:22px;line-height:14px;margin:-8px 0 6px}
+.seg{background:#EEF0F4;border:3px dashed #5C6781;border-radius:14px;padding:22px 18px;display:flex;flex-direction:column;justify-content:center;text-align:center}
+.seg h3{font-size:22px;color:#3B4458;margin-bottom:10px}
+.seg p{font-size:17px;line-height:1.4;color:#3B4458}
+.ext{margin-top:4px;display:flex;gap:14px}
+.ext div{flex:1;border:2px solid #9AA5B5;border-radius:12px;padding:12px 16px;font-size:17px;background:#F7F8FA;text-align:center}
+.ext b{display:block;font-size:19px;margin-bottom:3px}
+</style></head><body>
+<div class="wrap"><div>
+<div class="cam c1"><span class="n">CAMADA 1</span><h3>Totem de autoatendimento</h3><p>Identificação, verificação de elegibilidade, aviso de privacidade, consentimento assistencial, coleta da queixa e interação audiovisual</p></div>
+<div class="seta">▼</div>
+<div class="cam c2"><span class="n">CAMADA 2</span><h3>Plataforma de teleconsulta</h3><p>Fila médica, estado dos profissionais e transmissão de áudio e vídeo</p></div>
+<div class="seta">▼</div>
+<div class="cam c3"><span class="n">CAMADA 3</span><h3>Backend clínico</h3><p>Gestão de atendimentos, prontuário local, autenticação e autorização, reavaliação e alertas, notificações e auditoria</p></div>
+<div class="seta">▼</div>
+<div class="cam c4"><span class="n">CAMADA 4</span><h3>Gateway HL7 FHIR R4</h3><p>Isola a integração externa: perfis, terminologias, autenticação, validação e tratamento de erros</p></div>
+<div class="seta">▼</div>
+<div class="ext"><div><b>RNDS</b>Rede Nacional de Dados em Saúde</div><div><b>e-SUS APS / PEC</b>Registro da atenção primária, quando disponível</div></div>
+</div>
+<div class="seg"><h3>Camada 5<br>Segurança transversal</h3><p>Privacidade, criptografia em trânsito e em repouso, controle de acesso por perfis, auditoria imutável e resposta a incidentes, aplicados a todas as camadas</p></div>
+</div></body></html>

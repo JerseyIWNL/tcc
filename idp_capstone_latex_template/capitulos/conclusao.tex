@@ -1,0 +1,21 @@
+\label{sec:conclusao}
+
+Este trabalho propôs uma arquitetura de software para telemedicina em totens de autoatendimento, destinada a pacientes já classificados como de baixo risco em unidades públicas de saúde, e a submeteu a uma avaliação analítica prévia. A questão de pesquisa perguntava como estruturar essa arquitetura de forma rastreável às evidências, segura do ponto de vista assistencial e aderente aos padrões nacionais de interoperabilidade e à proteção de dados. A resposta é uma proposta arquitetural preliminar em cinco camadas, cuja contribuição está menos na escolha de tecnologias e mais em quatro elementos: a rastreabilidade explícita entre fontes, requisitos, riscos e componentes; os critérios clínicos que condicionam o uso do canal remoto; o mapeamento da integração com a RNDS a partir do modelo de informação do RAC e da documentação técnica oficial; e uma avaliação cujos limites estão declarados.
+
+Os objetivos específicos foram cumpridos no nível de projeto. A revisão narrativa reuniu os condicionantes assistenciais, regulatórios e técnicos (objetivo 1). A matriz de rastreabilidade vinculou 19 requisitos às suas fontes, riscos e componentes (objetivo 2). Os critérios de inclusão, exclusão, reavaliação e retorno trataram a classificação de risco como condição necessária, mas não suficiente (objetivo 3). A arquitetura foi documentada em camadas, nos três primeiros níveis do modelo C4, em diagrama de sequência e em uma representação didática do fluxo (objetivo 4). A integração com a RNDS foi especificada em termos de perfis, terminologias, autenticação, cabeçalhos, ambientes, validação e tratamento de erros (objetivo 5). A avaliação analítica mostrou cobertura completa entre requisitos e componentes, 25 de 39 itens de conformidade atendidos em projeto, 9 parcialmente atendidos e 5 não verificáveis, e sete de nove cenários de qualidade atendidos em projeto (objetivo 6).
+
+A compatibilidade verificada é de projeto e de documentação, e não de operação. Como a solução não foi prototipada nem avaliada empiricamente, as conclusões restringem-se à proposição arquitetural e ao seu potencial de integração futura ao ecossistema digital do SUS. Nenhuma afirmação sobre redução da superlotação, resolutividade, tempo de espera ou segurança operacional pode ser feita a partir deste trabalho. Além disso, a intervenção proposta atua sobre a entrada e o processamento do fluxo, e não sobre a saída, onde se concentra parte relevante da superlotação.
+
+\subsecao{Trabalhos futuros}
+
+Recomenda-se, nesta ordem:
+\begin{enumerate}
+    \item validação dos requisitos e dos critérios clínicos por painel de especialistas em medicina de emergência, enfermagem, informática em saúde e proteção de dados;
+    \item simulação do fluxo assistencial, para estimar filas, tempos de espera e necessidade de médicos remotos em diferentes perfis de demanda;
+    \item desenvolvimento de protótipo e homologação do envio do RAC no ambiente de testes da RNDS, acompanhando a publicação do modelo computacional do RAC para teleconsulta;
+    \item estudos de usabilidade com usuários reais, incluindo pessoas com deficiência, idosos e pessoas com baixa literacia digital;
+    \item análise de custo de aquisição, implantação e operação e análise de desempenho;
+    \item estudo piloto em unidades selecionadas, com aprovação ética, para examinar o efeito sobre tempo de espera, resolutividade, experiência dos usuários e segurança clínica.
+\end{enumerate}
+
+Somente depois dessas etapas será possível afirmar se a arquitetura proposta contribui, na prática, para o atendimento de pacientes de baixo risco no SUS.

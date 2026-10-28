@@ -1,0 +1,49 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam maxMessageSize 120
+skinparam ParticipantPadding 4
+skinparam BoxPadding 4
+skinparam shadowing false
+skinparam sequenceMessageAlign center
+skinparam SequenceArrowColor #444444
+skinparam SequenceLifeLineBorderColor #888888
+skinparam ParticipantBackgroundColor #EEF3FE
+skinparam ParticipantBorderColor #3C7FC0
+skinparam ActorBackgroundColor #EEF3FE
+skinparam ActorBorderColor #08427B
+autonumber 14
+title Parte 2: da espera ao registro na RNDS
+actor Paciente as P
+participant "Enfermagem\n(estação)" as E
+participant "Totem" as T
+participant "Backend\nclínico" as B
+participant "Plataforma de\nteleconsulta" as TC
+participant "Médico\nremoto" as M
+participant "Gateway\nFHIR" as G
+participant "RNDS" as R
+B -> G : solicita histórico
+G -> R : consulta (FHIR R4)
+R --> G : dados disponíveis
+G --> B : histórico
+B -> TC : coloca na fila médica
+loop enquanto aguarda
+  B -> E : lembra reavaliação\n(a cada 60 min)
+  E -> B : registra reaferição
+  note over B : piora, alerta ou chamada no totem:\nsuspende e devolve ao presencial
+end
+TC -> M : novo atendimento
+M -> TC : aceita
+TC <-> T : áudio e vídeo
+M -> B : registra conduta\ne desfecho
+B -> G : evento "concluído"\n(via fila)
+G -> G : monta e valida\no Bundle do RAC
+G -> R : POST Bundle
+alt aceito
+  R --> G : confirmação
+else rejeição ou indisponibilidade
+  R --> G : OperationOutcome\nou falha de rede
+  G -> G : reenvio com espera exponencial;\nesgotado, fila de não entregues\ne alerta ao gestor
+end
+B -> P : orientações por SMS
+@enduml

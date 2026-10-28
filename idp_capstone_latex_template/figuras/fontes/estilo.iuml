@@ -1,0 +1,40 @@
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam shadowing false
+skinparam roundCorner 12
+skinparam ArrowColor #555555
+skinparam ArrowFontColor #333333
+skinparam ArrowFontSize 11
+skinparam rectangle {
+  BorderColor #3C7FC0
+  BackgroundColor<<pessoa>> #08427B
+  BorderColor<<pessoa>> #073B6F
+  FontColor<<pessoa>> #FFFFFF
+  BackgroundColor<<sistema>> #1168BD
+  BorderColor<<sistema>> #0E5BA6
+  FontColor<<sistema>> #FFFFFF
+  BackgroundColor<<conteiner>> #438DD5
+  BorderColor<<conteiner>> #3C7FC0
+  FontColor<<conteiner>> #FFFFFF
+  BackgroundColor<<componente>> #85BBF0
+  BorderColor<<componente>> #78A8D8
+  FontColor<<componente>> #000000
+  BackgroundColor<<externo>> #999999
+  BorderColor<<externo>> #8A8A8A
+  FontColor<<externo>> #FFFFFF
+  BackgroundColor<<limite>> #FFFFFF
+  BorderColor<<limite>> #444444
+  BorderStyle<<limite>> dashed
+  FontColor<<limite>> #444444
+}
+skinparam database {
+  BackgroundColor #438DD5
+  BorderColor #3C7FC0
+  FontColor #FFFFFF
+}
+skinparam queue {
+  BackgroundColor #438DD5
+  BorderColor #3C7FC0
+  FontColor #FFFFFF
+}
+hide stereotype

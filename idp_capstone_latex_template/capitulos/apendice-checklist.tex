@@ -1,0 +1,60 @@
+Esta lista detalha os 39 itens da verificação de conformidade descrita na Seção~\ref{sec:res-avaliacao}. A classificação segue as três categorias definidas na metodologia.
+
+{\scriptsize
+\begin{longtable}{L{0.6cm} L{2.0cm} L{4.2cm} L{4.9cm} L{1.7cm}}
+\caption{Itens da verificação de conformidade}\label{tab:checklist}\\
+\toprule
+\textbf{N.º} & \textbf{Fonte e dispositivo} & \textbf{Exigência} & \textbf{Resposta da arquitetura} & \textbf{Resultado} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{N.º} & \textbf{Fonte e dispositivo} & \textbf{Exigência} & \textbf{Resposta da arquitetura} & \textbf{Resultado} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{5}{r}{\textit{continua na próxima página}}\\
+\endfoot
+\bottomrule
+\endlastfoot
+1 & Lei 14.510/2022, Art. 26-A e 26-C & Autonomia do profissional para usar ou não a telessaúde e indicar o atendimento presencial & Estação do médico permite encerrar e encaminhar ao presencial a qualquer momento, com registro do motivo & Atendido \\
+2 & Lei 14.510/2022, Art. 26-A & Consentimento livre e informado do paciente & Consentimento explícito coletado no totem e registrado no prontuário & Atendido \\
+3 & Lei 14.510/2022, Art. 26-A & Direito de recusa, com garantia do atendimento presencial sempre que solicitado & Recusa no totem ou durante a consulta devolve à fila presencial sem prejuízo & Atendido \\
+4 & Lei 14.510/2022, Art. 26-A & Confidencialidade dos dados & Criptografia, controle de acesso e controles de privacidade física; a privacidade física depende do leiaute da unidade & Parcial \\
+5 & Lei 14.510/2022, Art. 26-G, I & Consentimento do paciente ou representante legal, sob responsabilidade do profissional & Exclusão de pacientes sem capacidade de consentir desacompanhados; médico confirma o consentimento no início da consulta & Atendido \\
+6 & Lei 14.510/2022, Art. 26-G, II & Observância da LGPD, do Marco Civil da Internet, da Lei do Ato Médico, do CDC e da Lei do prontuário eletrônico & LGPD e guarda do prontuário tratadas na arquitetura; as demais dependem da operação e de contratos & Parcial \\
+7 & CFM 2.314/2022, Art. 3.º & Registro em sistema eletrônico que atenda ao NGS2 e ao padrão ICP-Brasil & Prontuário local previsto; a certificação NGS2 só pode ser obtida sobre um sistema implementado & Não verificável \\
+8 & CFM 2.314/2022, Art. 3.º & Preservação da confidencialidade, integridade, privacidade e sigilo dos dados & Criptografia em trânsito e em repouso, auditoria imutável e controle de acesso por perfis & Atendido \\
+9 & CFM 2.314/2022, Art. 4.º & Autonomia médica e linha de cuidado com atendimento presencial nos casos de risco & Critérios de retorno ao presencial e encaminhamento pelo médico & Atendido \\
+10 & CFM 2.314/2022, Art. 6.º & Informar as limitações do atendimento remoto e permitir a interrupção por médico ou paciente & Aviso no totem sobre a ausência de exame físico; interrupção possível nas duas pontas & Atendido \\
+11 & CFM 2.314/2022, Art. 13 & Documentos emitidos com identificação, data e hora, assinatura digital ICP-Brasil e indicação de telemedicina & Previsto na estação do médico; depende de provedor de assinatura e certificados dos médicos & Parcial \\
+12 & CFM 2.314/2022, Art. 15 & Consentimento explícito, com termo arquivado no prontuário, inclusive sobre transmissão de dados & Termo apresentado no totem e arquivado no Prontuário Local & Atendido \\
+13 & CFM 2.314/2022, Art. 17 & Plataforma com sede no Brasil e responsável técnico médico inscrito no CRM & Decisão de contratação e operação & Parcial \\
+14 & CFM 2.314/2022, Art. 19 & Serviços a distância não substituem a assistência presencial do SUS & Canal complementar, com saída presencial sempre aberta & Atendido \\
+15 & LGPD, Art. 11, II, f & Base legal adequada para dado sensível de saúde & Tratamento fundado na tutela da saúde, separado do consentimento assistencial & Atendido \\
+16 & LGPD, Art. 6.º, III & Necessidade: limitação ao mínimo necessário & Coleta mínima e ausência de persistência local no totem & Atendido \\
+17 & LGPD, Art. 6.º, VI e art. 9.º & Transparência e informação ao titular & Aviso de privacidade no totem com finalidade, controlador, retenção e contato do encarregado & Atendido \\
+18 & LGPD, Art. 18 & Atendimento aos direitos do titular & Canal pelo encarregado; o processo depende da instituição & Parcial \\
+19 & LGPD, Art. 20 & Revisão de decisões tomadas unicamente por tratamento automatizado & Não há decisão clínica automatizada; o bloqueio do totem apenas executa a decisão da enfermagem & Atendido \\
+20 & LGPD, Art. 37 & Registro das operações de tratamento & Serviço de Auditoria com registro imutável & Atendido \\
+21 & LGPD, Art. 38 & Relatório de impacto à proteção de dados, quando solicitado & Obrigação da instituição controladora & Parcial \\
+22 & LGPD, Art. 41 & Indicação de encarregado & Obrigação da instituição controladora & Parcial \\
+23 & LGPD, Art. 46 & Medidas técnicas e administrativas de segurança & Criptografia, controle de acesso, modo quiosque, segurança física e limpeza de sessão & Atendido \\
+24 & LGPD, Art. 48 & Comunicação de incidente à ANPD e ao titular & Processo de resposta previsto; execução depende da operação & Parcial \\
+25 & LGPD e Lei 13.787/2018, Art. 16, I; art. 6.º da Lei 13.787 & Conservação para obrigação legal e guarda do prontuário por no mínimo 20 anos & Política de retenção do prontuário; recusa do consentimento não elimina o registro & Atendido \\
+26 & Portaria 3.691/2024, Ações estruturantes & Plataforma interoperável com a RNDS e com prontuários eletrônicos & Gateway FHIR com envio do RAC e consulta ao histórico & Atendido \\
+27 & Guia RNDS, Conector & Autenticação com certificado digital do estabelecimento para obter o token & Gateway obtém o token no serviço de autenticação com o certificado do estabelecimento & Atendido \\
+28 & Guia RNDS, Conector & Reuso do token durante a validade de 30 minutos e renovação & Cache do token e renovação antes da expiração & Atendido \\
+29 & Guia RNDS, Conector e Erros & Cabeçalhos X-Authorization-Server com o token e Authorization com o CNS do profissional & Especificados no gateway & Atendido \\
+30 & Guia RNDS, Ambientes & Uso do ambiente de homologação e do endereço de produção da UF & Configuração por ambiente e por UF & Atendido \\
+31 & Guia RNDS, Erros & Documento com status final e identificador único & Montagem com status final e idempotência pelo identificador & Atendido \\
+32 & Guia RNDS, Erros & Interpretação do OperationOutcome e dos códigos documentados & Tratamento por tipo de erro (Tabela de erros) & Atendido \\
+33 & Portaria SAES 234/2022, Modelo de informação & Seções obrigatórias do RAC & Todas as seções obrigatórias têm origem definida no fluxo & Atendido \\
+34 & Guia RNDS, Modelo computacional & Conformidade do documento ao modelo computacional do RAC & Só verificável com o documento real validado pela rede & Não verificável \\
+35 & Guia RNDS, Homologação & Aprovação em homologação antes da produção & Exige credenciamento e ambiente de testes & Não verificável \\
+36 & MS, 2025, RAC para teleconsulta & Especialização do RAC com a modalidade de telessaúde & Modelo ainda não publicado nas fontes consultadas & Não verificável \\
+37 & LBI, eMAG, WCAG, Interface & Interface acessível (eMAG e WCAG 2.1 AA) & Requisito de projeto; a conformidade só pode ser avaliada em protótipo & Não verificável \\
+38 & NBR 9050, Equipamento & Alcance e aproximação do equipamento & Depende do hardware adquirido e da instalação & Parcial \\
+39 & LBI, Atendimento & Alternativa de atendimento assistido & Atendimento assistido por profissional e retorno ao presencial & Atendido \\
+\end{longtable}
+}
+\fonte{Elaboração própria.}

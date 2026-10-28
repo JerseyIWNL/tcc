@@ -1,0 +1,44 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam maxMessageSize 120
+skinparam ParticipantPadding 4
+skinparam BoxPadding 4
+skinparam shadowing false
+skinparam sequenceMessageAlign center
+skinparam SequenceArrowColor #444444
+skinparam SequenceLifeLineBorderColor #888888
+skinparam ParticipantBackgroundColor #EEF3FE
+skinparam ParticipantBorderColor #3C7FC0
+skinparam ActorBackgroundColor #EEF3FE
+skinparam ActorBorderColor #08427B
+autonumber
+title Parte 1: da triagem ao consentimento
+actor Paciente as P
+participant "Enfermagem\n(estação)" as E
+participant "Totem" as T
+participant "Backend\nclínico" as B
+P -> E : chega e é acolhido
+E -> E : classificação de risco\n(Manchester) e sinais vitais
+E -> B : registra triagem, sinais vitais\ne critérios de elegibilidade
+note right of E : verde ou azul é condição\nnecessária, não suficiente
+E -> P : oferece a teleconsulta
+P -> T : informa CNS ou CPF
+T -> B : solicita verificação
+B -> B : confere triagem registrada,\nelegibilidade e prazo
+alt sem triagem registrada ou inelegível
+  B -> T : bloqueia o uso
+  T -> P : orienta retorno ao\natendimento presencial
+else elegível
+  T -> P : aviso de privacidade e\npedido de consentimento
+  alt paciente recusa
+    T -> B : registra recusa
+    T -> P : encaminha à fila presencial
+  else paciente consente
+    T -> B : registra consentimento\nassistencial
+    P -> T : registra a queixa
+    T -> B : envia queixa estruturada
+    note over B : segue na Parte 2
+  end
+end
+@enduml

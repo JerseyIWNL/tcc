@@ -1,0 +1,35 @@
+@startuml
+!include estilo.iuml
+title Componentes do backend clínico (C4 nível 3)
+rectangle "**API Gateway**\n<size:10>[Contêiner]</size>" <<conteiner>> as api
+rectangle "Backend clínico" <<limite>> as lim {
+  rectangle "**Gestão de Atendimentos**\n<size:10>[Microsserviço]</size>\n\nCiclo de vida do atendimento.\nAplica a regra de elegibilidade\nvinculada à triagem registrada\ne controla prazos de espera" <<componente>> as gestao
+  rectangle "**Reavaliação e Alertas**\n<size:10>[Microsserviço]</size>\n\nAgenda reavaliações, recebe\nsinais vitais e chamadas do totem,\ndispara alerta à enfermagem\ne suspende a teleconsulta" <<componente>> as reav
+  rectangle "**Prontuário Local**\n<size:10>[Microsserviço]</size>\n\nRegistro clínico da unidade,\nconsentimento assistencial e\ncache do histórico consultado" <<componente>> as pront
+  rectangle "**Autenticação e Autorização**\n<size:10>[Microsserviço]</size>\n\nIdentidade dos profissionais,\nperfis de acesso e tokens" <<componente>> as auth
+  rectangle "**Notificações**\n<size:10>[Microsserviço]</size>\n\nOrientações ao paciente\ne alertas ao gestor" <<componente>> as notif
+  rectangle "**Auditoria**\n<size:10>[Microsserviço]</size>\n\nRegistro imutável de acessos:\nusuário, data, hora, recurso\ne origem" <<componente>> as audit
+}
+queue "**Fila de mensagens**" as fila
+database "**Banco de dados**" as db
+database "**Registro de auditoria**" as aud
+rectangle "**Gateway FHIR**\n<size:10>[Contêiner]</size>" <<conteiner>> as gw
+rectangle "**Plataforma de teleconsulta**\n<size:10>[Contêiner]</size>" <<conteiner>> as tele
+api --> auth : valida token
+api --> gestao : operações do atendimento
+api --> reav : sinais vitais e chamadas
+api --> pront : consultas clínicas
+gestao --> tele : solicita médico
+reav --> gestao : suspende ou devolve\nao fluxo presencial
+reav --> notif : alerta enfermagem
+gestao --> fila : publica evento
+pront --> gw : solicita histórico
+fila --> gw : aciona envio do RAC
+gw --> notif : falha definitiva
+gestao --> db
+pront --> db
+gestao --> audit
+pront --> audit
+auth --> audit
+audit --> aud
+@enduml

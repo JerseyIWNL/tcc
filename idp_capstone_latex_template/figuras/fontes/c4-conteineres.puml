@@ -1,0 +1,44 @@
+@startuml
+!include estilo.iuml
+title Diagrama de contêineres (C4 nível 2)
+rectangle "**Paciente**\n<size:10>[Pessoa]</size>" <<pessoa>> as paciente
+rectangle "**Enfermagem**\n<size:10>[Pessoa]</size>" <<pessoa>> as enf
+rectangle "**Médico remoto**\n<size:10>[Pessoa]</size>" <<pessoa>> as med
+rectangle "**Gestor**\n<size:10>[Pessoa]</size>" <<pessoa>> as gestor
+rectangle "Plataforma de teleconsulta pós-triagem" <<limite>> as lim {
+  rectangle "**Aplicação do totem**\n<size:10>[PWA em modo quiosque]</size>\n\nIdentificação, aviso de privacidade,\nconsentimento, queixa e vídeo" <<conteiner>> as totem
+  rectangle "**Estação de enfermagem**\n<size:10>[Aplicação web]</size>\n\nTriagem, sinais vitais,\nelegibilidade e reavaliação" <<conteiner>> as estenf
+  rectangle "**Estação do médico**\n<size:10>[Aplicação web]</size>\n\nFila, dados do paciente,\nvídeo e registro do desfecho" <<conteiner>> as estmed
+  rectangle "**Painel do gestor**\n<size:10>[Aplicação web]</size>\n\nIndicadores e alertas\noperacionais" <<conteiner>> as painel
+  rectangle "**API Gateway**\n<size:10>[Ponto de entrada]</size>\n\nAutenticação, roteamento\ne limitação de acesso" <<conteiner>> as api
+  rectangle "**Plataforma de teleconsulta**\n<size:10>[Sinalização + servidor de mídia]</size>\n\nFila médica, estado dos\nprofissionais e áudio/vídeo" <<conteiner>> as tele
+  rectangle "**Backend clínico**\n<size:10>[Microsserviços]</size>\n\nCiclo do atendimento, prontuário,\nreavaliação, notificações e auditoria" <<conteiner>> as back
+  rectangle "**Gateway FHIR**\n<size:10>[Serviço de integração]</size>\n\nMontagem, validação e envio\ndos recursos HL7 FHIR R4" <<conteiner>> as gw
+  queue "**Fila de mensagens**\n<size:10>[Mensageria assíncrona]</size>" as fila
+  database "**Banco de dados**\n<size:10>[Relacional + JSON]</size>" as db
+  database "**Registro de auditoria**\n<size:10>[Somente acréscimo]</size>" as aud
+}
+rectangle "**RNDS**\n<size:10>[Sistema externo]</size>" <<externo>> as rnds
+rectangle "**e-SUS APS / PEC**\n<size:10>[Sistema externo]</size>" <<externo>> as esus
+rectangle "**Serviço de mensagens**\n<size:10>[SMS]</size>" <<externo>> as sms
+paciente --> totem : toque, voz e vídeo
+enf --> estenf
+med --> estmed
+gestor --> painel
+totem --> api : HTTPS
+estenf --> api : HTTPS
+estmed --> api : HTTPS
+painel --> api : HTTPS
+totem <--> tele : WebRTC
+estmed <--> tele : WebRTC
+api --> back : REST
+back --> tele : solicita médico\nda fila
+back --> db : lê e grava
+back --> aud : registra acessos
+back --> fila : publica\n"atendimento concluído"
+fila --> gw : aciona envio do RAC
+back --> gw : consulta histórico
+gw --> rnds : FHIR R4 [HTTPS, mTLS]
+gw --> esus : consulta [opcional]
+back --> sms : orientações
+@enduml
