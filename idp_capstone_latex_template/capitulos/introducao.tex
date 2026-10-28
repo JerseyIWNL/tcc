@@ -10,6 +10,16 @@ O uso isolado dessas tecnologias, porém, não resolve o problema. A autotriagem
 
 Do lado da engenharia de software, uma revisão sistemática sobre arquiteturas de telemedicina identificou a recorrência de segurança, interoperabilidade e escalabilidade como preocupações centrais, mas com tratamento superficial dos requisitos regulatórios \cite{jat2024}. A arquitetura modular baseada em HL7 FHIR proposta por Gøeg et al. mostrou que um núcleo de baixo acoplamento é viável, mas sua avaliação clínica ficou como trabalho futuro e o contexto era o da Dinamarca \cite{goeg2018}. Faltam propostas que articulem, em uma mesma arquitetura, a classificação de risco presencial, o atendimento remoto no próprio ambiente da unidade e a integração com os perfis e terminologias da rede nacional brasileira.
 
+A proposta deste trabalho parte desse ponto. O paciente classificado como de baixo risco na triagem presencial pode ser atendido por um médico remoto, por vídeo, em um totem instalado na própria unidade, sem sair do alcance da equipe de enfermagem e sem perder a possibilidade de voltar ao atendimento presencial. A Figura~\ref{fig:fluxo} resume esse fluxo na visão de quem participa dele.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figuras/fluxo-atendimento.png}
+\caption{Visão geral do atendimento por teleconsulta no totem}
+\label{fig:fluxo}
+\fonte{Elaboração própria.}
+\end{figure}
+
 \subsecao{Problema e questão de pesquisa}
 
 O problema tratado neste trabalho é a ausência de uma arquitetura de software, documentada de forma rastreável, que permita oferecer teleconsulta em totem a pacientes já classificados como de baixo risco, sem transferir ao dispositivo a responsabilidade pela classificação, com critérios clínicos explícitos de elegibilidade e retorno ao atendimento presencial, e com aderência demonstrável aos padrões nacionais de interoperabilidade e à legislação de proteção de dados.

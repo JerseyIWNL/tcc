@@ -1,130 +1,58 @@
 <!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8">
 <style>
-:root{--navy:#0B3D6E;--azul:#1168BD;--azulc:#E8F1FB;--verde:#1E7D5A;--verdec:#E5F4EE;--roxo:#5B3E96;--roxoc:#EFEAF8;--cinza:#5C6781;--cinzac:#EEF0F4;--ambar:#B26A00;--ambarc:#FFF4DE;--txt:#1A1F2E;}
+:root{--navy:#0B3D6E;--azul:#1168BD;--verde:#1E7D5A;--roxo:#5B3E96;--cinza:#5C6781;--ambar:#B26A00;--ambarc:#FFF4DE;--txt:#1A1F2E}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;color:var(--txt);background:#fff;width:1500px;padding:48px 56px 40px}
-h1{font-size:38px;color:var(--navy);letter-spacing:-.3px}
-.sub{font-size:20px;color:var(--cinza);margin-top:8px}
-.leg{display:flex;gap:14px;margin:22px 0 30px}
-.chip{font-size:15px;font-weight:bold;padding:5px 12px;border-radius:999px}
-.c-pac{background:var(--azulc);color:var(--azul)}.c-enf{background:var(--verdec);color:var(--verde)}.c-med{background:var(--roxoc);color:var(--roxo)}.c-sis{background:var(--cinzac);color:var(--cinza)}
-.steps{position:relative}
-.steps:before{content:"";position:absolute;left:31px;top:20px;bottom:20px;width:4px;background:#D5DCE6;border-radius:2px}
-.step{position:relative;display:grid;grid-template-columns:66px 1fr 400px;gap:22px;margin-bottom:22px;align-items:start}
-.num{width:66px;height:66px;border-radius:50%;background:var(--navy);color:#fff;font-size:30px;font-weight:bold;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;border:5px solid #fff}
-.card{background:#fff;border:2px solid #DCE3EC;border-radius:16px;padding:18px 22px}
-.head{display:flex;align-items:center;gap:14px;margin-bottom:8px}
-.head svg{flex:none}
-.head h2{font-size:24px;color:var(--navy)}
-.chips{display:flex;gap:8px;margin-left:auto}
-.card p{font-size:18px;line-height:1.42}
-.alerta{margin-top:12px;background:var(--ambarc);border-left:6px solid var(--ambar);border-radius:8px;padding:9px 13px;font-size:16.5px;line-height:1.35}
-.alerta b{color:var(--ambar)}
-.tela{background:#F7F9FC;border:2px solid #C9D3E0;border-radius:16px;padding:14px;min-height:100%}
-.tela .rot{font-size:13px;font-weight:bold;color:var(--cinza);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
-.scr{background:#fff;border:2px solid #9FB3CC;border-radius:10px;padding:14px;font-size:16px;line-height:1.35}
-.scr .t{font-weight:bold;color:var(--navy);font-size:17px;margin-bottom:8px}
-.btn{display:inline-block;padding:7px 12px;border-radius:8px;font-weight:bold;font-size:15px;margin:8px 6px 0 0}
-.b1{background:var(--azul);color:#fff}.b2{background:#fff;color:var(--azul);border:2px solid var(--azul)}.b3{background:var(--ambar);color:#fff}
-.campo{border:2px solid #C9D3E0;border-radius:6px;padding:6px 10px;color:#8592A6;margin-top:4px}
-.linha{display:flex;justify-content:space-between;border-bottom:1px dashed #D5DCE6;padding:4px 0;font-size:15px}
-.linha span:last-child{font-weight:bold}
-.mini{font-size:14px;color:var(--cinza);margin-top:8px}
-.rodape{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.caixa{border-radius:14px;padding:16px 20px;font-size:17.5px;line-height:1.4}
-.cx1{background:var(--azulc);border:2px solid #BCD4EE}.cx2{background:var(--ambarc);border:2px solid #F0D29A}
-.caixa b{color:var(--navy)}
-.cx2 b{color:var(--ambar)}
+body{font-family:Arial,sans-serif;color:var(--txt);background:#fff;width:1920px;height:1080px;padding:70px;display:flex;flex-direction:column;justify-content:center}
+.linha{display:flex;align-items:stretch;gap:0}
+.etapa{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 10px}
+.icone{width:190px;height:190px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:26px}
+.num{font-size:26px;font-weight:bold;letter-spacing:1px;margin-bottom:10px}
+.etapa h2{font-size:40px;color:var(--navy);margin-bottom:16px;line-height:1.1}
+.etapa p{font-size:29px;line-height:1.35;color:#333B4D;min-height:157px}
+.quem{display:inline-block;margin-top:20px;font-size:22px;font-weight:bold;padding:6px 16px;border-radius:999px}
+.seta{width:70px;display:flex;align-items:flex-start;justify-content:center;padding-top:72px}
+.e1 .icone{background:#E5F4EE}.e1 .num,.e1 .quem{color:var(--verde)}.e1 .quem{background:#E5F4EE}
+.e2 .icone,.e3 .icone{background:#E8F1FB}.e2 .num,.e3 .num{color:var(--azul)}.e2 .quem,.e3 .quem{background:#E8F1FB;color:var(--azul)}
+.e4 .icone{background:#EFEAF8}.e4 .num,.e4 .quem{color:var(--roxo)}.e4 .quem{background:#EFEAF8}
+.e5 .icone{background:#EEF0F4}.e5 .num,.e5 .quem{color:var(--cinza)}.e5 .quem{background:#EEF0F4}
+.saida{margin-top:70px;background:var(--ambarc);border:3px solid #F0C878;border-radius:22px;padding:26px 36px;display:flex;align-items:center;gap:28px}
+.saida p{font-size:30px;line-height:1.35}
+.saida b{color:var(--ambar)}
 </style></head><body>
-<h1>Como funciona a teleconsulta no totem</h1>
-<div class="sub">Da chegada à unidade de saúde até o registro do atendimento, na visão de quem participa</div>
-<div class="leg"><span class="chip c-pac">Paciente</span><span class="chip c-enf">Enfermagem</span><span class="chip c-med">Médico remoto</span><span class="chip c-sis">Sistema</span></div>
+<div class="linha">
 
-<div class="steps">
+<div class="etapa e1"><div class="icone">
+<svg width="110" height="110" viewBox="0 0 40 40"><circle cx="20" cy="11" r="7" fill="#1E7D5A"/><path d="M6 38c0-9 6-15 14-15s14 6 14 15z" fill="#1E7D5A"/><rect x="17.5" y="26" width="5" height="10" fill="#fff"/><rect x="15" y="28.5" width="10" height="5" fill="#fff"/></svg></div>
+<div class="num">1</div><h2>Triagem</h2><p>A enfermeira classifica o risco e mede os sinais vitais</p><span class="quem">Enfermagem</span></div>
 
-<div class="step"><div class="num">1</div>
-<div class="card"><div class="head">
-<svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="11" r="7" fill="#1E7D5A"/><path d="M6 38c0-9 6-15 14-15s14 6 14 15z" fill="#1E7D5A"/><rect x="17" y="27" width="6" height="9" fill="#fff"/><rect x="15.5" y="28.5" width="9" height="6" fill="#fff"/></svg>
-<h2>Chegada e triagem</h2><div class="chips"><span class="chip c-enf">Enfermagem</span></div></div>
-<p>O paciente chega à UPA ou UBS e passa pela triagem presencial. A enfermeira classifica o risco pelo Protocolo de Manchester e mede os sinais vitais: pressão, frequência cardíaca e respiratória, saturação, temperatura e dor.</p></div>
-<div class="tela"><div class="rot">Estação de enfermagem</div><div class="scr"><div class="t">Classificação de risco</div>
-<div class="linha"><span>Cor atribuída</span><span style="color:#1E7D5A">Verde</span></div>
-<div class="linha"><span>Pressão arterial</span><span>120 x 80</span></div>
-<div class="linha"><span>Saturação</span><span>98%</span></div>
-<div class="mini">Valores ilustrativos</div></div></div></div>
+<div class="seta"><svg width="54" height="46" viewBox="0 0 54 46"><path d="M2 23h40M30 8l16 15-16 15" fill="none" stroke="#B8C3D3" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
 
-<div class="step"><div class="num">2</div>
-<div class="card"><div class="head">
-<svg width="40" height="40" viewBox="0 0 40 40"><path d="M6 20h22" stroke="#1E7D5A" stroke-width="5" stroke-linecap="round"/><path d="M22 11l10 9-10 9" fill="none" stroke="#1E7D5A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-<h2>Oferta da teleconsulta</h2><div class="chips"><span class="chip c-enf">Enfermagem</span></div></div>
-<p>Ser verde ou azul não basta. A enfermeira confere se o paciente é adulto, está orientado, consegue consentir e se a queixa dispensa exame físico. Atendidos esses critérios, ela oferece o atendimento por vídeo no totem.</p>
-<div class="alerta"><b>Não se encaixa?</b> O paciente segue no atendimento presencial, como sempre.</div></div>
-<div class="tela"><div class="rot">Estação de enfermagem</div><div class="scr"><div class="t">Critérios do canal remoto</div>
-<div class="linha"><span>Verde ou azul</span><span>✓</span></div>
-<div class="linha"><span>18 anos ou mais</span><span>✓</span></div>
-<div class="linha"><span>Sem sinais de alarme</span><span>✓</span></div>
-<div class="linha"><span>Dispensa exame físico</span><span>✓</span></div></div></div></div>
+<div class="etapa e2"><div class="icone">
+<svg width="110" height="110" viewBox="0 0 40 40"><rect x="9" y="2" width="22" height="27" rx="3" fill="#1168BD"/><rect x="12" y="5" width="16" height="17" rx="1.5" fill="#fff"/><path d="M15 14l3.5 3.5L25 10" fill="none" stroke="#1168BD" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="17" y="29" width="6" height="6" fill="#1168BD"/><rect x="11" y="35" width="18" height="3" rx="1.5" fill="#1168BD"/></svg></div>
+<div class="num">2</div><h2>Totem</h2><p>Se for verde ou azul, o paciente se identifica e aceita a consulta por vídeo</p><span class="quem">Paciente</span></div>
 
-<div class="step"><div class="num">3</div>
-<div class="card"><div class="head">
-<svg width="40" height="40" viewBox="0 0 40 40"><rect x="9" y="3" width="22" height="26" rx="3" fill="#1168BD"/><rect x="12" y="6" width="16" height="16" rx="1.5" fill="#fff"/><rect x="17" y="29" width="6" height="6" fill="#1168BD"/><rect x="11" y="35" width="18" height="3" rx="1.5" fill="#1168BD"/></svg>
-<h2>Identificação no totem</h2><div class="chips"><span class="chip c-pac">Paciente</span></div></div>
-<p>No totem, o paciente digita o CPF ou informa o Cartão Nacional de Saúde. O sistema só libera o atendimento se encontrar a triagem registrada pela enfermagem. Quem chega direto ao totem, sem triagem, é orientado a procurar o acolhimento.</p></div>
-<div class="tela"><div class="rot">Tela do totem</div><div class="scr"><div class="t">Olá! Vamos começar.</div>Informe seu CPF ou o número do Cartão do SUS
-<div class="campo">000.000.000-00</div><span class="btn b1">Continuar</span></div></div></div>
+<div class="seta"><svg width="54" height="46" viewBox="0 0 54 46"><path d="M2 23h40M30 8l16 15-16 15" fill="none" stroke="#B8C3D3" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
 
-<div class="step"><div class="num">4</div>
-<div class="card"><div class="head">
-<svg width="40" height="40" viewBox="0 0 40 40"><path d="M20 3l14 5v10c0 9-6 15-14 19C12 33 6 27 6 18V8z" fill="#1168BD"/><path d="M13 20l5 5 9-10" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-<h2>Privacidade e consentimento</h2><div class="chips"><span class="chip c-pac">Paciente</span></div></div>
-<p>A tela explica, em linguagem simples, para que os dados serão usados, por quanto tempo serão guardados e com quem falar sobre eles. Em seguida, pergunta se o paciente aceita ser atendido por vídeo. O fone de ouvido e o filtro de tela protegem a conversa na sala de espera.</p>
-<div class="alerta"><b>Prefere presencial?</b> Basta recusar: o paciente volta para a fila presencial, sem prejuízo, a qualquer momento.</div></div>
-<div class="tela"><div class="rot">Tela do totem</div><div class="scr"><div class="t">Atendimento por vídeo</div>Você será atendido por um médico a distância. Seus dados ficam protegidos e registrados no seu prontuário.
-<br><span class="btn b1">Aceito</span><span class="btn b2">Prefiro presencial</span></div></div></div>
+<div class="etapa e3"><div class="icone">
+<svg width="110" height="110" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="#1168BD"/><path d="M20 9v12l8 4.5" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg></div>
+<div class="num">3</div><h2>Espera</h2><p>Aguarda na unidade, com reavaliação da enfermagem</p><span class="quem">Paciente</span></div>
 
-<div class="step"><div class="num">5</div>
-<div class="card"><div class="head">
-<svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="#1168BD"/><path d="M20 10v11l7 4" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>
-<h2>Queixa e espera acompanhada</h2><div class="chips"><span class="chip c-pac">Paciente</span><span class="chip c-enf">Enfermagem</span></div></div>
-<p>O paciente conta o que está sentindo, por toque ou por voz, e acompanha o tempo estimado até o médico. Enquanto espera, continua dentro da unidade: a enfermagem refaz a avaliação pelo menos a cada 60 minutos, e o totem tem um botão para chamar ajuda.</p>
-<div class="alerta"><b>Piorou?</b> A teleconsulta é suspensa, a enfermagem assume e o paciente é reclassificado no atendimento presencial.</div></div>
-<div class="tela"><div class="rot">Tela do totem</div><div class="scr"><div class="t">Você está na fila do médico</div>Tempo estimado: 15 minutos
-<br><span class="btn b3">Chamar a enfermagem</span><div class="mini">Valores ilustrativos</div></div></div></div>
+<div class="seta"><svg width="54" height="46" viewBox="0 0 54 46"><path d="M2 23h40M30 8l16 15-16 15" fill="none" stroke="#B8C3D3" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
 
-<div class="step"><div class="num">6</div>
-<div class="card"><div class="head">
-<svg width="40" height="40" viewBox="0 0 40 40"><rect x="3" y="10" width="24" height="20" rx="4" fill="#5B3E96"/><path d="M27 17l10-6v18l-10-6z" fill="#5B3E96"/></svg>
-<h2>Teleconsulta</h2><div class="chips"><span class="chip c-med">Médico remoto</span><span class="chip c-pac">Paciente</span></div></div>
-<p>O médico, em outro local, recebe o paciente na sua fila. Antes de começar, já vê a classificação de risco, os sinais vitais, a queixa e o histórico disponível na rede nacional. A conversa acontece por áudio e vídeo.</p>
-<div class="alerta"><b>Precisa examinar?</b> Se o médico julgar necessário exame físico, encaminha o paciente ao atendimento presencial.</div></div>
-<div class="tela"><div class="rot">Tela do médico</div><div class="scr"><div class="t">Paciente na fila</div>
-<div class="linha"><span>Classificação</span><span style="color:#1E7D5A">Verde</span></div>
-<div class="linha"><span>Queixa</span><span>Dor de garganta</span></div>
-<div class="linha"><span>Histórico</span><span>Disponível</span></div>
-<span class="btn b1" style="background:#5B3E96">Iniciar vídeo</span><div class="mini">Valores ilustrativos</div></div></div></div>
+<div class="etapa e4"><div class="icone">
+<svg width="110" height="110" viewBox="0 0 40 40"><rect x="2" y="10" width="25" height="20" rx="4" fill="#5B3E96"/><path d="M27 17l11-6.5v19L27 23z" fill="#5B3E96"/></svg></div>
+<div class="num">4</div><h2>Teleconsulta</h2><p>O médico remoto já vê a triagem e atende por vídeo</p><span class="quem">Médico remoto</span></div>
 
-<div class="step"><div class="num">7</div>
-<div class="card"><div class="head">
-<svg width="40" height="40" viewBox="0 0 40 40"><rect x="8" y="3" width="24" height="34" rx="3" fill="#5B3E96"/><path d="M13 12h14M13 19h14M13 26h9" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>
-<h2>Desfecho</h2><div class="chips"><span class="chip c-med">Médico remoto</span><span class="chip c-pac">Paciente</span></div></div>
-<p>O médico registra a conduta: orientação, receita ou encaminhamento. O paciente recebe as orientações por mensagem no celular e, se for o caso, segue para o atendimento presencial indicado.</p></div>
-<div class="tela"><div class="rot">Celular do paciente</div><div class="scr"><div class="t">Orientações do seu atendimento</div>Siga as recomendações do médico. Em caso de piora, procure a unidade de saúde.</div></div></div>
+<div class="seta"><svg width="54" height="46" viewBox="0 0 54 46"><path d="M2 23h40M30 8l16 15-16 15" fill="none" stroke="#B8C3D3" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
 
-<div class="step"><div class="num">8</div>
-<div class="card"><div class="head">
-<svg width="40" height="40" viewBox="0 0 40 40"><path d="M11 30a8 8 0 0 1 0-16 11 11 0 0 1 21 3 6.5 6.5 0 0 1-1 13z" fill="#5C6781"/><path d="M20 19v10M16 23l4-4 4 4" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-<h2>Registro na rede nacional</h2><div class="chips"><span class="chip c-sis">Sistema</span></div></div>
-<p>O atendimento vira um Registro de Atendimento Clínico, conferido antes do envio e mandado à Rede Nacional de Dados em Saúde (RNDS), para que outros serviços do SUS possam dar continuidade ao cuidado. Se a internet ou a rede nacional estiverem fora do ar, o registro fica guardado com segurança e é reenviado depois.</p></div>
-<div class="tela"><div class="rot">Painel do gestor</div><div class="scr"><div class="t">Registros do dia</div>
-<div class="linha"><span>Enviados</span><span>✓</span></div>
-<div class="linha"><span>Aguardando reenvio</span><span>em fila</span></div>
-<div class="mini">Ilustrativo</div></div></div></div>
+<div class="etapa e5"><div class="icone">
+<svg width="110" height="110" viewBox="0 0 40 40"><path d="M10.5 31a8.5 8.5 0 0 1 0-17 11.5 11.5 0 0 1 22 3.2A7 7 0 0 1 31 31z" fill="#5C6781"/><path d="M14.5 23l4 4 7.5-8" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div class="num">5</div><h2>Desfecho</h2><p>Orientações no celular e registro enviado à rede nacional (RNDS)</p><span class="quem">Sistema</span></div>
 
 </div>
-
-<div class="rodape">
-<div class="caixa cx1"><b>Quem decide o quê.</b> A classificação de risco é sempre da enfermagem, e a decisão clínica é sempre do médico. O totem não faz triagem nem diagnóstico: é só o canal de acesso à consulta.</div>
-<div class="caixa cx2"><b>Saída sempre aberta.</b> Em qualquer etapa, por escolha do paciente, indicação do médico, piora ou falha técnica, o paciente volta para o atendimento presencial.</div>
+<div class="saida">
+<svg width="74" height="74" viewBox="0 0 40 40" style="flex:none"><circle cx="20" cy="20" r="18" fill="#B26A00"/><path d="M20 10v13" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><circle cx="20" cy="29.5" r="2.8" fill="#fff"/></svg>
+<p><b>Saída sempre aberta.</b> Em qualquer etapa, se o paciente recusar, piorar ou precisar de exame físico, ele volta para o atendimento presencial.</p>
 </div>
 </body></html>

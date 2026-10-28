@@ -52,15 +52,7 @@ Dois requisitos merecem destaque. O RF1 e o RNF1 materializam a decisão central
 \subsecao{Visão geral da solução}
 \label{sec:res-visao}
 
-A Figura~\ref{fig:fluxo} apresenta o funcionamento da solução do ponto de vista de quem participa do atendimento: paciente, enfermagem e médico remoto. A figura foi elaborada para ser compreendida sem conhecimento técnico e resume, em oito etapas, o fluxo que as seções seguintes detalham.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.86\textwidth]{figuras/fluxo-atendimento.png}
-\caption{Fluxo de atendimento na visão do paciente, da enfermagem e do médico}
-\label{fig:fluxo}
-\fonte{Elaboração própria. As telas são ilustrativas e os valores exibidos são fictícios.}
-\end{figure}
+A Figura~\ref{fig:fluxo}, apresentada no Capítulo~\ref{sec:introducao}, resume em cinco etapas o funcionamento da solução do ponto de vista de quem participa do atendimento. As seções seguintes detalham a arquitetura que sustenta esse fluxo.
 
 A arquitetura que sustenta esse fluxo foi organizada em cinco camadas funcionais (Figura~\ref{fig:camadas}). As quatro primeiras têm responsabilidades sequenciais, do contato com o paciente até a integração externa. A quinta, de segurança, atravessa todas as outras.
 
