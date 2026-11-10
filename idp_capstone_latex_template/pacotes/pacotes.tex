@@ -21,6 +21,11 @@
 \newcommand{\quebraimpl}{}
 \DeclareRobustCommand{\quebra}{\quebraimpl}
 
+% Estilo bibliográfico: IEEE com termos em português (IEEEtran-pt.bst, na raiz).
+% Remove a escolha feita pela classe (configs/ não é alterada) e define a nova.
+\RemoveFromHook{begindocument}[idp-model]
+\bibliographystyle{IEEEtran-pt}
+
 \hypersetup{hidelinks}
 \urlstyle{same}
 
@@ -153,6 +158,18 @@
     \end{flushleft}
     \vspace{1em}
     \input{partes/dedicatoria}
+}
+
+% ---------------------------------------------------------------------
+% Lista de abreviaturas e siglas
+% ---------------------------------------------------------------------
+\newcommand{\listasiglas}{
+    \clearpage
+    \begin{flushleft}
+    {\Large\bfseries\color{fundo_idp}\MakeUppercase{Lista de abreviaturas e siglas}}
+    \end{flushleft}
+    \vspace{1em}
+    {\small\input{partes/siglas}}
 }
 
 % ---------------------------------------------------------------------

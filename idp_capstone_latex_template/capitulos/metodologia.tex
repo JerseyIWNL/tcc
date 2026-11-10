@@ -15,7 +15,7 @@ O estudo seguiu as atividades do processo de DSR descrito por Peffers et al. \ci
 \toprule
 \textbf{Atividade} & \textbf{Procedimento neste trabalho} & \textbf{Onde está} \\
 \midrule
-Identificação do problema e motivação & Revisão narrativa protocolada sobre superlotação, baixo risco e triagem & Capítulos 1 e 2 \\
+Identificação do problema e motivação & Revisão narrativa dirigida sobre superlotação, baixo risco e triagem & Capítulos 1 e 2 \\
 Definição dos objetivos da solução & Derivação de requisitos rastreáveis às fontes e aos riscos & Seção~\ref{sec:res-requisitos} \\
 Projeto e desenvolvimento & Síntese arquitetural em camadas, modelo C4, critérios clínicos e especificação de integração & Seções 4.2 a 4.6 \\
 Demonstração & Descrição do fluxo de atendimento completo, em visão didática e em diagrama de sequência & Seção 4.2 \\
@@ -28,7 +28,7 @@ Comunicação & Artigo no CBIS 2026 e esta monografia & -- \\
 
 A atividade de demonstração, que em DSR costuma envolver o uso do artefato em uma situação concreta, foi limitada à descrição do fluxo completo de atendimento. Não houve protótipo nem simulação executável, o que é tratado como limitação.
 
-\subsecao{Protocolo da revisão narrativa}
+\subsecao{Revisão narrativa dirigida}
 
 A revisão teve por finalidade delimitar o problema, identificar soluções já discutidas e reunir os condicionantes técnicos, assistenciais, regulatórios e éticos da proposta. As buscas foram feitas nas bases PubMed/MEDLINE, SciELO e Biblioteca Virtual em Saúde (LILACS), complementadas por busca dirigida nos portais oficiais da Presidência da República, da Câmara dos Deputados, do Ministério da Saúde e do Conselho Federal de Medicina, para legislação, resoluções e guias técnicos não indexados, e nos sítios das organizações responsáveis por padrões técnicos (HL7 International, W3C e ISO).
 
@@ -54,9 +54,9 @@ Foram combinados, por operadores booleanos, descritores dos vocabulários DeCS e
 \fonte{Elaboração própria.}
 \end{table}
 
-Foram incluídas fontes com texto completo disponível, em português, inglês ou espanhol, que tratassem de ao menos um dos seis eixos. Foram excluídos editoriais sem dados, materiais promocionais e estudos restritos a contextos incompatíveis com o atendimento remoto de baixo risco. O número de registros recuperados em cada base não é reportado neste trabalho, o que impede a reprodução quantitativa da busca e reforça o caráter narrativo, e não sistemático, da revisão.
+Foram incluídas fontes com texto completo disponível, em português, inglês ou espanhol, que tratassem de ao menos um dos seis eixos. Foram excluídos editoriais sem dados, materiais promocionais e estudos restritos a contextos incompatíveis com o atendimento remoto de baixo risco. As expressões de busca exatas e o número de registros recuperados em cada base não são reportados neste trabalho, o que impede a reprodução da busca. Por isso, a revisão é caracterizada como narrativa dirigida, e não como revisão sistemática ou protocolada.
 
-O corpus final é formado pelas 44 referências deste trabalho: 18 artigos científicos, 10 documentos normativos (leis, resoluções e portarias), 5 documentos técnicos do Ministério da Saúde sobre a RNDS e o RAC, 6 padrões e documentos técnicos de outras organizações e 5 referências de método e ferramentas. Na preparação desta monografia, os dados bibliográficos de todas as referências foram conferidos nas fontes primárias, e os achados citados foram verificados no texto original de cada uma.
+O corpus final é formado pelas 47 referências deste trabalho: 18 artigos científicos sobre o domínio, 12 documentos normativos (leis, resoluções e portarias), 5 documentos técnicos sobre a RNDS, o RAC e a telessaúde, 6 padrões e documentos técnicos de outras organizações e 6 referências de método e ferramentas. Parte das fontes foi incluída após uma revisão externa desta monografia, em novembro de 2026. Na preparação desta monografia, os dados bibliográficos de todas as referências foram conferidos nas fontes primárias, e os achados citados foram verificados no texto original de cada uma.
 
 \subsecao{Derivação dos requisitos}
 
@@ -72,25 +72,29 @@ Duas decisões antecederam a modelagem. A primeira foi preservar a classificaç�
 
 \subsecao{Avaliação analítica prévia}
 
-Como não há protótipo, a proposta foi avaliada analiticamente, antes de qualquer implementação, por três procedimentos complementares conduzidos pelo autor.
+Como não há protótipo, a proposta foi avaliada analiticamente, antes de qualquer implementação, por três procedimentos complementares conduzidos pelo autor. No enquadramento de Venable, Pries-Heje e Baskerville \cite{venable2016}, trata-se de uma avaliação formativa e artificial: feita sobre o projeto, e não sobre o artefato em uso real, com o objetivo de orientar seu aprimoramento, e não de demonstrar seus efeitos.
+
+Os resultados da análise de cenários e da verificação de conformidade foram classificados nas mesmas três categorias:
+\begin{itemize}
+    \item \textbf{atendido em projeto}: a arquitetura especifica o mecanismo, e sua adequação pode ser julgada pela documentação, sem depender de validação clínica, medição, protótipo, certificação ou homologação;
+    \item \textbf{parcialmente atendido}: a arquitetura prevê o mecanismo, mas o cumprimento depende de decisões de implantação local, organizacionais ou contratuais;
+    \item \textbf{não verificável}: a adequação do mecanismo só pode ser demonstrada por validação clínica, medição em campo, protótipo, estudo com usuários, certificação ou homologação na RNDS.
+\end{itemize}
+Quando um item se enquadra em mais de uma categoria, prevalece a mais restritiva.
 
 \subsubsecao{Análise baseada em cenários}
 
-Inspirada no método ATAM \cite{kazman1998}, a análise confrontou a arquitetura com cenários que descrevem um estímulo, o contexto em que ocorre e a resposta esperada. Para cada cenário foram identificados os componentes envolvidos, a resposta prevista pela arquitetura e o resultado da análise, em três categorias: atendido em projeto, parcialmente atendido ou não verificável sem protótipo. Os cenários foram escolhidos para cobrir os riscos de maior consequência identificados na revisão: piora clínica durante a espera, falhas de rede e da RNDS, privacidade em ambiente público, mudanças nos perfis nacionais, acessibilidade e uso indevido do canal.
+Inspirada no método ATAM \cite{kazman1998}, a análise confrontou a arquitetura com cenários que descrevem um estímulo, o contexto em que ocorre e a resposta esperada. Para cada cenário foram identificados os componentes envolvidos, a resposta prevista pela arquitetura e o resultado da análise, nas três categorias definidas acima. A análise apenas se inspira no ATAM: não foram construídas árvores de utilidade (\textit{utility trees}) nem houve participação de interessados (\textit{stakeholders}) na escolha e na priorização dos cenários, que foram definidos pelo autor. Os cenários foram escolhidos para cobrir os riscos de maior consequência identificados na revisão: piora clínica durante a espera, falhas de rede e da RNDS, privacidade em ambiente público, mudanças nos perfis nacionais, acessibilidade, uso indevido do canal e identificação incorreta do paciente.
 
 \subsubsecao{Verificação de conformidade}
 
-A verificação usou uma lista de checagem construída a partir dos dispositivos das normas e guias técnicos que se aplicam ao caso de uso: Lei n.º 14.510/2022 \cite{lei14510}, Resolução CFM n.º 2.314/2022 \cite{cfm2314}, LGPD \cite{lgpd2018}, Lei n.º 13.787/2018 \cite{lei13787}, Portaria GM/MS n.º 3.691/2024 \cite{portaria3691}, Portaria SAES/MS n.º 234/2022 \cite{portaria234}, Guia de Integração da RNDS \cite{rndsconector, rndsambientes, rndserros} e referências de acessibilidade \cite{lbi2015, nbr9050, emag, wcag21}. Cada item foi classificado em uma de três categorias:
-\begin{itemize}
-    \item \textbf{atendido em projeto}: a arquitetura especifica o mecanismo que cumpre a exigência;
-    \item \textbf{parcialmente atendido}: a arquitetura prevê o mecanismo, mas o cumprimento depende de decisões de implantação local, organizacionais ou contratuais;
-    \item \textbf{não verificável}: a verificação exige protótipo, certificação ou acesso ao ambiente de homologação da RNDS.
-\end{itemize}
-A lista completa está no Apêndice~\ref{ap:checklist}.
+A verificação usou uma lista de checagem construída a partir dos dispositivos das normas e guias técnicos que se aplicam ao caso de uso: Lei n.º 14.510/2022 \cite{lei14510}, Resolução CFM n.º 2.314/2022 \cite{cfm2314}, LGPD \cite{lgpd2018}, Lei n.º 13.787/2018 \cite{lei13787}, Portaria GM/MS n.º 3.691/2024 \cite{portaria3691}, Portarias SAES/MS n.º 234/2022 e GM/MS n.º 8.347/2025 \cite{portaria234, portaria8347}, Guia de Integração da RNDS \cite{rndsconector, rndsambientes, rndserros} e referências de acessibilidade \cite{lbi2015, nbr9050, emag, wcag21}. Cada item foi classificado nas três categorias definidas acima. A lista completa está no Apêndice~\ref{ap:checklist}.
 
-\subsubsecao{Análise de cobertura}
+\subsubsecao{Consistência e cobertura da matriz}
 
-A análise de cobertura verificou, sobre a matriz de rastreabilidade, se todo requisito está associado a pelo menos um componente e se todo componente responde a pelo menos um requisito. A matriz de cobertura está no Apêndice~\ref{ap:cobertura}.
+Este procedimento tem duas partes. A primeira é uma checagem de consistência: confirma se a matriz de rastreabilidade foi preenchida segundo suas próprias regras, isto é, se todo requisito está associado a pelo menos um componente e todo componente a pelo menos um requisito. Como essas regras orientaram a construção da matriz, o resultado indica apenas que ela está completa, e não constitui evidência sobre a qualidade da arquitetura.
+
+A segunda parte inverte o sentido da análise e funciona como teste: cada item da lista de verificação de conformidade foi associado aos requisitos que o atendem, para identificar exigências normativas que não foram traduzidas em requisito. A matriz de cobertura está no Apêndice~\ref{ap:cobertura}, e a associação entre itens normativos e requisitos, no Apêndice~\ref{ap:checklist}.
 
 \subsubsecao{Limites da avaliação}
 

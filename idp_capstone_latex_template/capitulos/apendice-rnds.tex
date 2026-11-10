@@ -47,4 +47,4 @@ Authorization: {CNS do profissional requisitante}
 }
 \end{lstlisting}
 
-O identificador do documento deve ser único: o reenvio de um documento já recebido é rejeitado com o erro EHR-ERR866, que o gateway trata como confirmação de envio anterior. O status do documento deve ser \texttt{final}, sob pena do erro EHR-ERR924 \cite{rndserros}.
+O identificador do documento deve ser único: o reenvio de um documento já recebido é rejeitado com o erro EHR-ERR866. Como o mesmo erro pode indicar colisão de identificador, o gateway só o trata como confirmação de envio anterior quando o registro local tem a confirmação desse envio; caso contrário, gera alerta para verificação manual. O status do documento deve ser \texttt{final}, sob pena do erro EHR-ERR924 \cite{rndserros}.

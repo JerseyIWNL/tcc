@@ -22,15 +22,16 @@ P -> E : chega e é acolhido
 E -> E : classificação de risco\n(Manchester) e sinais vitais
 E -> B : registra triagem, sinais vitais\ne critérios de elegibilidade
 note right of E : verde ou azul é condição\nnecessária, não suficiente
-E -> P : oferece a teleconsulta
-P -> T : informa CNS ou CPF
+E -> B : gera código de atendimento\nde uso único
+E -> P : oferece a teleconsulta\ne entrega o código
+P -> T : informa CNS ou CPF\ne o código
 T -> B : solicita verificação
-B -> B : confere triagem registrada,\nelegibilidade e prazo
-alt sem triagem registrada ou inelegível
+B -> B : confere código, triagem,\nelegibilidade e prazo
+alt código inválido, sem triagem ou inelegível
   B -> T : bloqueia o uso
   T -> P : orienta retorno ao\natendimento presencial
 else elegível
-  T -> P : aviso de privacidade e\npedido de consentimento
+  T -> P : aviso de privacidade, ausência\nde exame físico e consentimento
   alt paciente recusa
     T -> B : registra recusa
     T -> P : encaminha à fila presencial

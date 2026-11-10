@@ -6,9 +6,9 @@ Entre os fatores de entrada desse cenário está a presença de pacientes de bai
 
 Depois da expansão da saúde digital durante a pandemia de COVID-19 \cite{donida2021, ndayishimiye2023}, a telessaúde ganhou marco legal permanente pela Lei n.º 14.510/2022, que assegura ao paciente o direito de recusar o atendimento a distância e de ser atendido presencialmente sempre que solicitar \cite{lei14510}. A Resolução CFM n.º 2.314/2022 regulamentou a telemedicina, exigiu consentimento explícito do paciente e manteve com o médico a prerrogativa de indicar o atendimento presencial \cite{cfm2314}. No mesmo período, quiosques de autoatendimento passaram a ser usados em serviços de emergência, com ganhos concentrados em etapas como o registro e a pré-triagem \cite{joseph2023}.
 
-O uso isolado dessas tecnologias, porém, não resolve o problema. A autotriagem eletrônica apresentou baixa concordância com a triagem feita por enfermeiros em dois serviços de emergência do Reino Unido \cite{dickson2022}, o que desaconselha transferir a classificação de risco para o próprio dispositivo. Além disso, qualquer solução que pretenda se integrar ao Sistema Único de Saúde (SUS) precisa observar os padrões nacionais de interoperabilidade, publicados para a Rede Nacional de Dados em Saúde (RNDS), e as regras de proteção de dados pessoais sensíveis da Lei Geral de Proteção de Dados Pessoais (LGPD) \cite{portaria1434, lgpd2018, leme2020}.
+O uso isolado dessas tecnologias, porém, não resolve o problema. A autotriagem eletrônica apresentou baixa concordância com a triagem feita por enfermeiros em dois serviços de emergência do Reino Unido \cite{dickson2022}, e a classificação de risco é atividade privativa do enfermeiro na equipe de enfermagem \cite{cofen661}. Ambos os fatos desaconselham transferir a classificação para o próprio dispositivo. Além disso, qualquer solução que pretenda se integrar ao Sistema Único de Saúde (SUS) precisa observar os padrões nacionais de interoperabilidade, publicados para a Rede Nacional de Dados em Saúde (RNDS), e as regras de proteção de dados pessoais sensíveis da Lei Geral de Proteção de Dados Pessoais (LGPD) \cite{portaria1434, lgpd2018, leme2020}.
 
-Do lado da engenharia de software, uma revisão sistemática sobre arquiteturas de telemedicina identificou a recorrência de segurança, interoperabilidade e escalabilidade como preocupações centrais, mas com tratamento superficial dos requisitos regulatórios \cite{jat2024}. A arquitetura modular baseada em HL7 FHIR proposta por Gøeg et al. mostrou que um núcleo de baixo acoplamento é viável, mas sua avaliação clínica ficou como trabalho futuro e o contexto era o da Dinamarca \cite{goeg2018}. Faltam propostas que articulem, em uma mesma arquitetura, a classificação de risco presencial, o atendimento remoto no próprio ambiente da unidade e a integração com os perfis e terminologias da rede nacional brasileira.
+Do lado da engenharia de software, uma revisão sistemática sobre arquiteturas de telemedicina identificou a recorrência de segurança, interoperabilidade e escalabilidade como preocupações centrais, mas com tratamento superficial dos requisitos regulatórios \cite{jat2024}. A arquitetura modular baseada em HL7 FHIR proposta por Gøeg et al. mostrou que um núcleo de baixo acoplamento é viável, mas sua avaliação clínica ficou como trabalho futuro e o contexto era o da Dinamarca \cite{goeg2018}. Na revisão realizada neste trabalho, não foram localizadas propostas que articulassem, em uma mesma arquitetura, a classificação de risco presencial, o atendimento remoto no próprio ambiente da unidade e a integração com os perfis e terminologias da rede nacional brasileira.
 
 A proposta deste trabalho parte desse ponto. O paciente classificado como de baixo risco na triagem presencial pode ser atendido por um médico remoto, por vídeo, em um totem instalado na própria unidade, sem sair do alcance da equipe de enfermagem e sem perder a possibilidade de voltar ao atendimento presencial. A Figura~\ref{fig:fluxo} resume esse fluxo na visão de quem participa dele.
 
@@ -22,7 +22,7 @@ A proposta deste trabalho parte desse ponto. O paciente classificado como de bai
 
 \subsecao{Problema e questão de pesquisa}
 
-O problema tratado neste trabalho é a ausência de uma arquitetura de software, documentada de forma rastreável, que permita oferecer teleconsulta em totem a pacientes já classificados como de baixo risco, sem transferir ao dispositivo a responsabilidade pela classificação, com critérios clínicos explícitos de elegibilidade e retorno ao atendimento presencial, e com aderência demonstrável aos padrões nacionais de interoperabilidade e à legislação de proteção de dados.
+O problema tratado neste trabalho é que, na revisão realizada, não foi localizada uma arquitetura de software, documentada de forma rastreável, que permitisse oferecer teleconsulta em totem a pacientes já classificados como de baixo risco, sem transferir ao dispositivo a responsabilidade pela classificação, com critérios clínicos explícitos de elegibilidade e retorno ao atendimento presencial, e com aderência demonstrável aos padrões nacionais de interoperabilidade e à legislação de proteção de dados.
 
 A questão que orienta o trabalho é: \textit{como estruturar uma arquitetura de software que viabilize a teleconsulta em totem para pacientes já triados como de baixo risco, de forma rastreável às evidências, segura do ponto de vista assistencial e aderente aos padrões nacionais de interoperabilidade e à proteção de dados?}
 
@@ -41,12 +41,12 @@ Propor e avaliar analiticamente uma arquitetura de software para telemedicina em
 \subsubsecao{Objetivos específicos}
 
 \begin{enumerate}
-    \item Levantar, por revisão narrativa protocolada, os condicionantes assistenciais, regulatórios e técnicos do atendimento remoto de pacientes de baixo risco no SUS.
+    \item Levantar, por revisão narrativa dirigida, os condicionantes assistenciais, regulatórios e técnicos do atendimento remoto de pacientes de baixo risco no SUS.
     \item Derivar requisitos funcionais e não funcionais rastreáveis às fontes, aos riscos que endereçam e aos componentes que os atendem.
     \item Especificar critérios clínicos de elegibilidade, reavaliação e retorno seguro ao fluxo presencial, tratando a classificação de risco como condição necessária, mas não suficiente.
     \item Modelar a arquitetura em camadas e documentá-la com o modelo C4 e com diagrama de sequência.
     \item Especificar a integração com a RNDS em termos de modelo de informação, perfis, terminologias, autenticação, validação e tratamento de erros.
-    \item Avaliar a proposta por análise de cenários de qualidade, verificação de conformidade normativa e análise de cobertura entre requisitos e componentes.
+    \item Avaliar a proposta por análise de cenários de qualidade, verificação de conformidade normativa e verificação de consistência e cobertura da matriz de rastreabilidade.
 \end{enumerate}
 
 \subsecao{Contribuições}

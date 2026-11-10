@@ -25,7 +25,7 @@ A revisão produziu 19 requisitos: 10 funcionais e 9 não funcionais. A Tabela~\
 \endlastfoot
 RF1 & Restringir o canal a pacientes com classificação verde ou azul registrada em triagem presencial e que atendam aos critérios de elegibilidade & \cite{stormversloot2014, sorznechay2025} & Uso do canal remoto por paciente de maior gravidade & Estação de enfermagem, Gestão de Atendimentos, Aplicação do totem \\
 RF2 & Registrar a classificação e os sinais vitais e disponibilizá-los ao médico remoto & \cite{portaria234, rcp2017news2} & Perda de contexto entre a triagem e a teleconsulta & Estação de enfermagem, Prontuário Local, Estação do médico \\
-RF3 & Identificar o paciente por CNS ou CPF & \cite{portaria234, rndsig} & Registro clínico vinculado a indivíduo errado & Aplicação do totem, Gestão de Atendimentos, Gateway FHIR \\
+RF3 & Identificar o paciente por CNS ou CPF, confirmado por código de atendimento de uso único gerado na triagem & \cite{portaria234, rndsig} & Uso do totem por outra pessoa ou registro vinculado a indivíduo errado & Estação de enfermagem, Aplicação do totem, Gestão de Atendimentos, Gateway FHIR \\
 RF4 & Coletar e registrar o consentimento explícito para o atendimento remoto, com confirmação pelo médico & \cite{cfm2314, lei14510} & Ato médico sem autorização documentada & Aplicação do totem, Prontuário Local, Estação do médico \\
 RF5 & Permitir a recusa e o retorno ao atendimento presencial a qualquer momento, com registro do motivo & \cite{lei14510, cfm2314} & Restrição indevida da autonomia do paciente ou do médico & Aplicação do totem, Gestão de Atendimentos, Estação do médico \\
 RF6 & Agendar reavaliações, receber sinais vitais e chamadas do totem, alertar a enfermagem e suspender a teleconsulta em caso de piora & \cite{rcp2017news2, stormversloot2014} & Agravamento não detectado durante a espera & Reavaliação e Alertas, Estação de enfermagem, Aplicação do totem, Notificações \\
@@ -42,7 +42,7 @@ RNF5 & Manter o registro clínico diante de falhas de rede ou da RNDS, com reenv
 RNF6 & Assegurar acessibilidade física e digital e atendimento assistido alternativo (usabilidade) & \cite{lbi2015, nbr9050, emag, wcag21, joseph2023} & Exclusão por deficiência ou baixa literacia digital & Aplicação do totem, Estação de enfermagem \\
 RNF7 & Manter módulos de baixo acoplamento, com evolução independente (manutenibilidade) & \cite{goeg2018, jat2024} & Obsolescência diante de mudanças nos perfis nacionais & Gateway FHIR, Fila de mensagens, todos os serviços \\
 RNF8 & Autenticar os profissionais e controlar o acesso por perfis (segurança) & \cite{lgpd2018, cfm2314} & Acesso indevido a dados clínicos & Autenticação e Autorização, API Gateway \\
-RNF9 & Oferecer monitoramento operacional ao gestor com dados agregados, sem dados clínicos identificados (segurança) & \cite{lgpd2018, pearce2024} & Uso de dado clínico para finalidade diversa & Painel do gestor \\
+RNF9 & Oferecer monitoramento operacional ao gestor com dados agregados, sem dados clínicos identificados (segurança) & \cite{lgpd2018} & Uso de dado clínico para finalidade diversa & Painel do gestor \\
 \end{longtable}
 }
 \fonte{Elaboração própria.}
@@ -98,7 +98,7 @@ O diagrama de contêineres (Figura~\ref{fig:conteineres}) mostra as aplicações
 
 \subsubsecao{Fluxo de atendimento}
 
-As Figuras~\ref{fig:sequencia1} e \ref{fig:sequencia2} detalham, em diagrama de sequência, o fluxo da Figura~\ref{fig:fluxo}, dividido em duas partes para preservar a legibilidade. Três pontos do fluxo foram desenhados como barreiras de segurança. O primeiro é a verificação, no backend, de que existe uma triagem registrada e de que o paciente atende aos critérios e está dentro do prazo de espera, antes que o totem libere qualquer funcionalidade. O segundo é a repetição da reavaliação durante a espera, com suspensão da teleconsulta em caso de piora. O terceiro é o tratamento das falhas no envio do RAC, que nunca bloqueia o encerramento do atendimento.
+As Figuras~\ref{fig:sequencia1} e \ref{fig:sequencia2} detalham, em diagrama de sequência, o fluxo da Figura~\ref{fig:fluxo}, dividido em duas partes para preservar a legibilidade. Três pontos do fluxo foram desenhados como barreiras de segurança. O primeiro é a verificação, no backend, de que existe uma triagem registrada, de que o código de atendimento informado corresponde a ela e de que o paciente atende aos critérios e está dentro do prazo de espera, antes que o totem libere qualquer funcionalidade. O segundo é a repetição da reavaliação durante a espera, com suspensão da teleconsulta em caso de piora. O terceiro é o tratamento das falhas no envio do RAC, que nunca bloqueia o encerramento do atendimento.
 
 \begin{figure}[H]
 \centering
@@ -121,7 +121,9 @@ As Figuras~\ref{fig:sequencia1} e \ref{fig:sequencia2} detalham, em diagrama de 
 
 \subsubsecao{Totem de autoatendimento}
 
-O totem é um dispositivo dedicado, instalado na unidade, com tela sensível ao toque, câmera, microfone, saída de áudio com fone de ouvido, leitor para o cartão do SUS ou teclado para o CPF e conexão de rede. A escolha de um equipamento dedicado, em vez de dispositivos do próprio paciente, decorre da necessidade de um ambiente de hardware e software controlado, com superfície de ataque reduzida e gestão centralizada. A aplicação é executada em modo quiosque, com uma única aplicação em tela cheia, sem acesso ao sistema operacional ou a navegação livre, e não guarda dados clínicos localmente ao fim da sessão. Os controles de privacidade, segurança física e acessibilidade do totem estão na Seção~\ref{sec:res-dados}.
+O totem é um dispositivo dedicado, instalado na unidade, com tela sensível ao toque, câmera, microfone, saída de áudio com fone de ouvido, teclado na tela para CPF, CNS e código de atendimento e conexão de rede. A escolha de um equipamento dedicado, em vez de dispositivos do próprio paciente, decorre da necessidade de um ambiente de hardware e software controlado, com superfície de ataque reduzida e gestão centralizada. A aplicação é executada em modo quiosque, com uma única aplicação em tela cheia, sem acesso ao sistema operacional ou a navegação livre, e não guarda dados clínicos localmente ao fim da sessão. Os controles de privacidade, segurança física e acessibilidade do totem estão na Seção~\ref{sec:res-dados}.
+
+A identificação exige um cuidado adicional. Informar apenas o CPF ou o CNS não basta, porque outra pessoa na sala de espera poderia usar o totem no lugar do paciente triado. Por isso, ao registrar a triagem, a estação de enfermagem gera um código de atendimento de uso único, entregue ao paciente, vinculado ao registro da triagem e válido apenas durante o prazo máximo de espera. O totem só libera o atendimento quando o identificador e o código correspondem à mesma triagem. No início da teleconsulta, o médico confirma a identidade do paciente pela imagem e pelos dados de cadastro, e confirma também o consentimento, informando que não haverá exame físico.
 
 \subsubsecao{Plataforma de teleconsulta}
 
@@ -178,13 +180,13 @@ Tempo máximo de espera & Os limites do protocolo, contados a partir da classifi
 Reavaliação & Reavaliação de enfermagem pelo menos a cada 60 minutos, ou antes, diante de alerta. Alteração relevante implica nova classificação de risco e nova verificação de elegibilidade. \\
 Reconhecimento de deterioração & Gatilhos objetivos inspirados em escore de alerta precoce, como o NEWS2 \cite{rcp2017news2}, combinados a botão de chamada no totem e acionamento direto da enfermagem. O disparo suspende a teleconsulta. \\
 Retorno ao fluxo presencial & Obrigatório em caso de piora clínica, dúvida diagnóstica, necessidade de exame físico, indicação do médico, recusa do paciente ou falha técnica não recuperável, sempre com registro do motivo. \\
-Responsabilidades & A classificação de risco permanece com a enfermagem, e a decisão clínica, com o médico. O totem não faz triagem, diagnóstico nem conduta autônoma. \\
+Responsabilidades & A classificação de risco permanece com o enfermeiro, como atividade privativa \cite{cofen661}, e a decisão clínica, com o médico. O totem não faz triagem, diagnóstico nem conduta autônoma. \\
 \bottomrule
 \end{tabularx}
-\fonte{Elaboração própria, a partir de \cite{stormversloot2014, sorznechay2025, dickson2022, rcp2017news2, cfm2314, lei14510}.}
+\fonte{Elaboração própria, a partir de \cite{stormversloot2014, sorznechay2025, dickson2022, rcp2017news2, cfm2314, lei14510, cofen661}.}
 \end{table}
 
-Três observações delimitam esses critérios. A janela de 60 minutos para reavaliação não foi extraída de uma fonte: é um valor proposto, menor que o tempo máximo do nível verde, para garantir ao menos uma reavaliação dentro desse prazo. Os gatilhos do NEWS2 foram concebidos para doenças agudas no sistema de saúde britânico, e seu uso em pacientes de baixo risco em espera não foi validado \cite{rcp2017news2}. A exclusão de menores de 18 anos é uma escolha conservadora: a única evidência de segurança do encaminhamento examinada vem de população pediátrica, mas com encaminhamento a atendimento presencial, e não a teleconsulta \cite{sorznechay2025}.
+Quatro observações delimitam esses critérios. A janela de 60 minutos para reavaliação não foi extraída de uma fonte: é um valor proposto, menor que o tempo máximo do nível verde, para garantir ao menos uma reavaliação dentro desse prazo. Os gatilhos do NEWS2 foram concebidos para doenças agudas no sistema de saúde britânico, e seu uso em pacientes de baixo risco em espera não foi validado \cite{rcp2017news2}. A exclusão de menores de 18 anos é uma escolha conservadora: a única evidência de segurança do encaminhamento examinada vem de população pediátrica, mas com encaminhamento a atendimento presencial, e não a teleconsulta, e com seguimento de apenas cerca de um quarto dos pacientes encaminhados \cite{sorznechay2025}. A exclusão de gestantes também é uma escolha conservadora do autor, sem fonte específica entre as consultadas, para que queixas na gestação sejam avaliadas presencialmente; a pertinência dessa exclusão deve ser decidida na validação clínica.
 
 \subsecao{Interoperabilidade com a RNDS e o e-SUS APS}
 \label{sec:res-rnds}
@@ -203,7 +205,7 @@ A adoção do HL7 FHIR R4 não é, por si só, evidência de conformidade com a 
 Padrão e versão & HL7 FHIR R4 (4.0.1), conforme o Guia de Implementação da RNDS, versão 1.0.0 \cite{rndsig, hl7fhirr4}. \\
 Indivíduo & Perfil BRIndividuo, derivado de \textit{Patient}, com identificação por CNS ou CPF nos sistemas de nomenclatura nacionais \cite{rndsig}. \\
 Profissional e estabelecimento & Perfis BRProfissional, BRLotacaoProfissional e BREstabelecimentoSaude, com ocupação codificada em CBO e estabelecimento identificado pelo CNES \cite{rndsig}. \\
-Conteúdo clínico & Seções do modelo de informação do RAC, com problemas e diagnósticos codificados em CID ou CIAP e procedimentos em SIGTAP, CBHPM ou TUSS \cite{portaria234}. Os perfis do modelo computacional devem seguir a versão publicada pelo Ministério da Saúde na data da implantação, inclusive a especialização para teleconsulta, que em 2025 ainda estava em desenvolvimento \cite{ms2025modelos}. \\
+Conteúdo clínico & Seções do modelo de informação do RAC, com problemas e diagnósticos codificados em CID ou CIAP e procedimentos em SIGTAP, CBHPM ou TUSS \cite{portaria234}. Os perfis e especificações técnicas devem seguir o modelo de informação do RAC vigente, instituído pela Portaria GM/MS n.º 8.347/2025, na versão publicada na data da implantação \cite{portaria8347}. \\
 Autenticação & Certificado digital do estabelecimento para obter o token no serviço de autenticação. Token reutilizado durante a validade de 30 minutos e renovado antes de expirar \cite{rndsconector}. \\
 Cabeçalhos & \texttt{X-Authorization-Server} com \texttt{Bearer} seguido do token; \texttt{Authorization} com o CNS do profissional lotado no estabelecimento em nome de quem a requisição é feita \cite{rndsconector, rndserros}. \\
 Ambientes & Homologação em ambiente único; produção com serviço de autenticação único e serviços clínicos por unidade federativa, no padrão \texttt{\{uf\}-ehr-services.saude.gov.br} \cite{rndsambientes}. \\
@@ -217,7 +219,7 @@ Continuidade do cuidado & Consulta ao histórico disponível na RNDS e, quando h
 
 \subsubsecao{Mapeamento do RAC no fluxo}
 
-A Tabela~\ref{tab:rac} relaciona as seções do modelo de informação do RAC \cite{portaria234} ao momento do fluxo em que cada informação é produzida e ao componente que a origina. O mapeamento mostra que todas as seções obrigatórias do modelo têm uma origem definida no fluxo proposto.
+A Tabela~\ref{tab:rac} relaciona as seções do modelo de informação do RAC definido pela Portaria SAES/MS n.º 234/2022 \cite{portaria234} ao momento do fluxo em que cada informação é produzida e ao componente que a origina. O mapeamento mostra que todas as seções obrigatórias desse modelo têm uma origem definida no fluxo proposto. Como o modelo foi atualizado pela Portaria GM/MS n.º 8.347/2025 \cite{portaria8347}, o mapeamento precisa ser revisto sobre o modelo vigente antes de qualquer implantação.
 
 \begin{table}[H]
 \centering
@@ -258,7 +260,7 @@ O Guia de Integração documenta mensagens de erro de negócio que orientam o co
 \textbf{Situação documentada pela RNDS} & \textbf{Resposta prevista} \\
 \midrule
 Token expirado (HTTP 401, EHR-ERR882) & Obter novo token e repetir a requisição uma vez \\
-Identificador do documento já utilizado (HTTP 422, EHR-ERR866) & Tratar como envio já realizado: confirmar o registro e não reenviar \\
+Identificador do documento já utilizado (HTTP 422, EHR-ERR866) & Tratar como possível duplicidade: se o registro local tiver confirmação anterior desse envio, não reenviar; se não tiver, tratar como colisão de identificador e alertar para verificação manual \\
 Documento enviado com status diferente de final (HTTP 422, EHR-ERR924) & Erro de montagem: bloquear o reenvio e alertar a equipe técnica \\
 Identificador do solicitante não autorizado (EHR-ERR881) & Erro de configuração do credenciamento: suspender envios e alertar o gestor \\
 Profissional sem vínculo autorizado (EHR-ERR906) & Manter o documento na fila e alertar o gestor para regularizar a lotação \\
@@ -323,11 +325,11 @@ A Tabela~\ref{tab:decisoes} registra as principais decisões, as alternativas co
 \endfoot
 \bottomrule
 \endlastfoot
-D1. Totem como canal pós-triagem & Autotriagem no totem; triagem remota & Baixa concordância da autotriagem com a enfermagem \cite{dickson2022} e recomendação de uso complementar \cite{joseph2023} & Depende da disponibilidade da enfermagem na entrada \\
+D1. Totem como canal pós-triagem & Autotriagem no totem; triagem remota & Baixa concordância da autotriagem com a enfermagem \cite{dickson2022}, recomendação de uso complementar \cite{joseph2023} e classificação de risco privativa do enfermeiro \cite{cofen661} & Depende da disponibilidade da enfermagem na entrada \\
 D2. Serviços independentes de baixo acoplamento & Monolito; monolito modular & Partes com cargas e ritmos de mudança diferentes (mídia, fila, integração) e necessidade de evoluir a integração sem afetar o resto \cite{goeg2018, jat2024} & Maior complexidade de operação, implantação e observabilidade \\
 D3. Gateway FHIR dedicado & Integração direta em cada serviço & Isola mudanças de perfil e regra da rede nacional em um ponto \cite{goeg2018} & Um componente e um salto de rede a mais \\
 D4. REST para operações síncronas e fila de mensagens para o envio do RAC & Tudo síncrono & O atendimento não pode esperar a resposta da RNDS; a fila garante persistência e reenvio & Consistência eventual entre o prontuário local e a rede nacional \\
-D5. Mídia por servidor de encaminhamento seletivo (SFU) & Conexão direta entre pares; servidor que mistura os fluxos (MCU) & Controle do servidor sobre a sessão, possibilidade de gravação opcional e menor custo de processamento que a mistura de fluxos & Servidores de mídia para operar e dimensionar \\
+D5. Mídia por servidor de encaminhamento seletivo (SFU) & Conexão direta entre pares; servidor que mistura os fluxos (MCU) & Controle do servidor sobre a sessão, como qualidade e encerramento, e menor custo de processamento que a mistura de fluxos. As sessões não são gravadas, em coerência com a minimização de dados (RNF3) & Servidores de mídia para operar e dimensionar \\
 D6. Envio com armazenamento e reenvio (\textit{store-and-forward}) e idempotência & Envio único, com falha exposta ao usuário & Falhas de rede ou da RNDS não podem virar perda de registro; o erro de identificador repetido é documentado pela rede \cite{rndserros} & Registro nacional pode atrasar \\
 D7. Aplicação web progressiva em modo quiosque & Aplicativo nativo & Atualização remota sem intervenção física e independência do sistema operacional do equipamento & Depende das restrições do navegador em modo quiosque \\
 D8. Banco relacional com suporte a JSON & Banco de documentos & Dados operacionais relacionais e recursos FHIR em JSON no mesmo banco, com transações & Consultas sobre JSON menos eficientes que sobre colunas \\
@@ -340,9 +342,11 @@ Como exemplos de implementação compatíveis com essas decisões, podem ser cit
 \subsecao{Resultados da avaliação analítica}
 \label{sec:res-avaliacao}
 
-\subsubsecao{Cobertura}
+\subsubsecao{Consistência e cobertura}
 
-A análise de cobertura confirmou que os 19 requisitos da Tabela~\ref{tab:rastreabilidade} estão associados a pelo menos um componente e que nenhum dos 16 componentes da arquitetura permanece sem requisito que o justifique. A Aplicação do totem é o componente associado a mais requisitos (dez), o que reflete sua concentração de responsabilidades no contato com o paciente e indica onde a qualidade da implementação terá maior efeito. O Gateway FHIR responde a cinco requisitos, todos ligados à integração externa, o que confirma seu papel de ponto único de mudança. Sete componentes respondem a um único requisito, o que é esperado para serviços de responsabilidade estreita, como Auditoria e Autenticação. A matriz completa está no Apêndice~\ref{ap:cobertura}.
+A checagem de consistência confirmou que os 19 requisitos da Tabela~\ref{tab:rastreabilidade} estão associados a pelo menos um componente e que todos os 16 componentes respondem a pelo menos um requisito. Como explicado na metodologia, esse resultado decorre das regras de construção da matriz e indica apenas que ela está completa.
+
+O teste de cobertura normativa, que parte dos itens da lista de verificação em direção aos requisitos, é mais informativo. Dos 39 itens, 33 estão associados a pelo menos um requisito. Os seis itens sem requisito correspondente são todos de natureza organizacional: a observância de outras normas na operação (art. 26-G, II, da Lei n.º 14.510/2022), a sede e o responsável técnico da plataforma (art. 17 da Resolução CFM n.º 2.314/2022) e, na LGPD, o atendimento aos direitos do titular (art. 18), o relatório de impacto (art. 38), a indicação de encarregado (art. 41) e a comunicação de incidentes (art. 48). O teste revela, portanto, uma lacuna real: obrigações que a arquitetura não cumpre sozinha ficaram fora dos requisitos. Em uma próxima iteração, elas devem ser incluídas como requisitos de implantação, com responsável institucional definido. As matrizes estão nos Apêndices~\ref{ap:cobertura} e \ref{ap:checklist}.
 
 \subsubsecao{Conformidade}
 
@@ -361,7 +365,7 @@ Lei n.º 14.510/2022 & 6 & 4 & 2 & 0 \\
 Resolução CFM n.º 2.314/2022 & 8 & 5 & 2 & 1 \\
 LGPD e Lei n.º 13.787/2018 & 11 & 7 & 4 & 0 \\
 Portaria GM/MS n.º 3.691/2024 & 1 & 1 & 0 & 0 \\
-Guia de Integração da RNDS e Portaria SAES/MS n.º 234/2022 & 10 & 7 & 0 & 3 \\
+Guia da RNDS e modelos do RAC (2022 e 2025) & 10 & 7 & 0 & 3 \\
 Acessibilidade (LBI, NBR 9050, eMAG, WCAG) & 3 & 1 & 1 & 1 \\
 \midrule
 \textbf{Total} & \textbf{39} & \textbf{25} & \textbf{9} & \textbf{5} \\
@@ -370,11 +374,11 @@ Acessibilidade (LBI, NBR 9050, eMAG, WCAG) & 3 & 1 & 1 & 1 \\
 \fonte{Elaboração própria. Itens detalhados no Apêndice~\ref{ap:checklist}.}
 \end{table}
 
-Os itens não verificáveis concentram-se onde a conformidade só pode ser demonstrada por terceiros ou em operação: a certificação do sistema de registro eletrônico no nível NGS2 exigida pela Resolução CFM n.º 2.314/2022, a aceitação do documento pelo modelo computacional do RAC, a homologação na RNDS, a especialização do RAC para teleconsulta ainda não publicada e a conformidade efetiva da interface com as diretrizes de acessibilidade.
+Os itens não verificáveis concentram-se onde a conformidade só pode ser demonstrada por terceiros ou em operação: a certificação do sistema de registro eletrônico no nível NGS2 exigida pela Resolução CFM n.º 2.314/2022, a aceitação do documento pelo modelo computacional do RAC, a homologação na RNDS, a conformidade com o modelo do RAC instituído em 2025 e a conformidade efetiva da interface com as diretrizes de acessibilidade.
 
 \subsubsecao{Cenários de qualidade}
 
-A Tabela~\ref{tab:cenarios} apresenta os nove cenários analisados e seus resultados.
+A Tabela~\ref{tab:cenarios} apresenta os dez cenários analisados e seus resultados.
 
 {\footnotesize
 \begin{longtable}{L{3.6cm} L{5.3cm} L{5.0cm}}
@@ -392,20 +396,21 @@ A Tabela~\ref{tab:cenarios} apresenta os nove cenários analisados e seus result
 \endfoot
 \bottomrule
 \endlastfoot
-C1. Paciente verde piora enquanto aguarda a teleconsulta & Alerta por reaferição ou chamada no totem, suspensão da teleconsulta e reavaliação de enfermagem & Atendido em projeto; gatilhos e janela de reavaliação dependem de validação clínica \\
-C2. Queda de conectividade durante a teleconsulta & Redução para somente áudio, tentativa de retomada e, se inviável, retorno presencial registrado & Atendido em projeto; limiares de qualidade exigem medição em campo \\
-C3. RNDS indisponível no momento do envio do RAC & Enfileiramento cifrado, reenvio com espera exponencial e fila de não entregues com alerta & Atendido em projeto; requer teste em homologação \\
+C1. Paciente verde piora enquanto aguarda a teleconsulta & Alerta por reaferição ou chamada no totem, suspensão da teleconsulta e reavaliação de enfermagem & Não verificável: o mecanismo está especificado, mas gatilhos e janela de reavaliação dependem de validação clínica \\
+C2. Queda de conectividade durante a teleconsulta & Redução para somente áudio, tentativa de retomada e, se inviável, retorno presencial registrado & Não verificável: o mecanismo está especificado, mas os limiares de qualidade exigem medição em campo \\
+C3. RNDS indisponível no momento do envio do RAC & Enfileiramento cifrado, reenvio com espera exponencial e fila de não entregues com alerta & Não verificável: o mecanismo está especificado, mas o comportamento precisa ser testado em homologação \\
 C4. Token expira durante um lote de envios & Renovação do token e repetição única da requisição & Atendido em projeto, com base no comportamento documentado (EHR-ERR882) \\
-C5. Mesmo RAC enviado duas vezes após falha de rede & Idempotência pelo identificador do documento e tratamento do erro de identificador repetido como confirmação & Atendido em projeto, com base no comportamento documentado (EHR-ERR866) \\
+C5. Mesmo RAC enviado duas vezes após falha de rede & Idempotência pelo identificador do documento e conferência no registro local antes de tratar o erro de identificador repetido como envio anterior & Atendido em projeto, com base no comportamento documentado (EHR-ERR866) \\
 C6. Terceiro observa a tela do totem na sala de espera & Filtro de privacidade, fone, posicionamento reservado e exibição parcial de identificadores & Parcialmente atendido; depende do leiaute da unidade \\
-C7. Publicação de nova versão dos perfis nacionais & Alteração restrita ao gateway FHIR, sem propagação às demais camadas & Atendido em projeto; acoplamento não medido empiricamente \\
-C8. Paciente com deficiência ou baixa literacia digital & Interface acessível, leitura em voz e atendimento assistido por profissional da unidade & Parcialmente atendido; exige estudo de usabilidade \\
+C7. Publicação de nova versão dos perfis nacionais & Alteração restrita ao gateway FHIR, sem propagação às demais camadas & Atendido em projeto: o isolamento é visível na estrutura, pois só o gateway conhece os perfis; o grau de acoplamento não foi medido \\
+C8. Paciente com deficiência ou baixa literacia digital & Interface acessível, leitura em voz e atendimento assistido por profissional da unidade & Não verificável: depende de estudo de usabilidade com usuários reais \\
 C9. Tentativa de uso do totem sem triagem presencial & Bloqueio pela regra de elegibilidade vinculada ao registro da triagem & Atendido em projeto \\
+C10. Pessoa na sala de espera tenta usar o totem com o CPF de um paciente triado & Liberação condicionada ao código de atendimento de uso único gerado na triagem e conferência da identidade pelo médico & Atendido em projeto \\
 \end{longtable}
 }
 \fonte{Elaboração própria.}
 
-Dos nove cenários, sete foram atendidos em projeto e dois parcialmente atendidos. Nenhum cenário foi considerado plenamente verificado, porque todas as respostas dependem de implementação para serem medidas.
+Dos dez cenários, cinco foram considerados atendidos em projeto, um parcialmente atendido e quatro não verificáveis, por dependerem de validação clínica, medição em campo, homologação ou estudo com usuários. Mesmo os cenários atendidos em projeto não foram verificados em operação: a classificação indica apenas que a resposta prevista pode ser julgada pela documentação.
 
 \subsecao{Discussão}
 \label{sec:res-discussao}
@@ -422,11 +427,11 @@ Três alternativas existentes ajudam a situar a proposta. A primeira é a implan
 
 \subsubsecao{Interoperabilidade}
 
-Na interoperabilidade, a especificação de perfis, terminologias, autenticação, cabeçalhos, ambientes e tratamento de erros, a partir da documentação oficial, distingue a proposta de arranjos que apenas declaram aderência ao FHIR. O mapeamento das seções do RAC mostra que o fluxo produz todas as informações obrigatórias do modelo de informação. Dois fatos, no entanto, limitam o que se pode afirmar. A especialização do RAC para teleconsulta ainda estava em desenvolvimento nas fontes consultadas \cite{ms2025modelos}, e a aceitação de um documento pela rede só pode ser demonstrada em homologação. Além disso, a integração com o registro da atenção primária foi tratada como opcional, porque a implantação da estratégia e-SUS varia entre municípios \cite{cielo2022} e o PEC não foi concebido originalmente para integração com sistemas de terceiros \cite{celuppi2024}.
+Na interoperabilidade, a especificação de perfis, terminologias, autenticação, cabeçalhos, ambientes e tratamento de erros, a partir da documentação oficial, distingue a proposta de arranjos que apenas declaram aderência ao FHIR. O mapeamento das seções do RAC mostra que o fluxo produz todas as informações obrigatórias do modelo de informação. Dois fatos, no entanto, limitam o que se pode afirmar. O mapeamento foi feito sobre o modelo do RAC de 2022, atualizado em 2025 \cite{portaria8347}, e a aceitação de um documento pela rede só pode ser demonstrada em homologação. Além disso, a integração com o registro da atenção primária foi tratada como opcional, porque a implantação da estratégia e-SUS varia entre municípios \cite{cielo2022} e o PEC não foi concebido originalmente para integração com sistemas de terceiros \cite{celuppi2024}.
 
 \subsubsecao{Proteção de dados}
 
-Separar a base legal do consentimento assistencial evita um erro recorrente em sistemas de saúde digital, que é condicionar o tratamento de dados a um consentimento que o paciente pode revogar, o que seria incompatível com o dever de guarda do prontuário \cite{lgpd2018, lei13787}. A defesa do consentimento qualificado por Leme e Blank \cite{leme2020} continua relevante para usos que não se enquadram na tutela da saúde, como o uso secundário de dados, que a arquitetura limita a indicadores agregados.
+Separar a base legal do consentimento assistencial evita condicionar o tratamento de dados a um consentimento que o paciente pode revogar, o que seria incompatível com o dever de guarda do prontuário \cite{lgpd2018, lei13787}. A defesa do consentimento qualificado por Leme e Blank \cite{leme2020} continua relevante para usos que não se enquadram na tutela da saúde, como o uso secundário de dados, que a arquitetura limita a indicadores agregados.
 
 \subsubsecao{Fatores organizacionais e contexto brasileiro}
 
@@ -439,4 +444,4 @@ Por fim, a proposta atua sobre a entrada e o processamento do fluxo de atendimen
 \subsecao{Limitações}
 \label{sec:res-limitacoes}
 
-Quatro limitações delimitam os resultados. A primeira é de método: a revisão é narrativa e, embora protocolada, não tem a exaustividade nem a reprodutibilidade quantitativa de uma revisão sistemática. A segunda é de avaliação: os três procedimentos foram conduzidos pelo próprio autor, sem especialistas externos, protótipo, usuários ou acesso à homologação da RNDS, e conformidade documental não equivale a conformidade verificada. A terceira é clínica: critérios de elegibilidade, gatilhos de deterioração e janelas de reavaliação foram propostos a partir da literatura e das normas e requerem validação profissional. A quarta é de contexto: a proposta pressupõe conectividade, energia e capacidade técnica local que não estão disponíveis de forma uniforme no país, e não inclui análise de custo de aquisição, implantação e operação dos totens. Em consequência, nenhuma afirmação sobre redução da superlotação, resolutividade, tempo de espera ou segurança operacional pode ser derivada deste trabalho.
+Quatro limitações delimitam os resultados. A primeira é de método: a revisão é narrativa e dirigida, e as expressões de busca e o número de registros recuperados não são reportados, o que impede sua reprodução. A segunda é de avaliação: os três procedimentos foram conduzidos pelo próprio autor, sem especialistas externos, protótipo, usuários ou acesso à homologação da RNDS, e conformidade documental não equivale a conformidade verificada. Os números da avaliação, como os itens e cenários atendidos em projeto, devem ser lidos como autoavaliação do autor. A terceira é clínica: critérios de elegibilidade, gatilhos de deterioração e janelas de reavaliação foram propostos a partir da literatura e das normas e requerem validação profissional. A quarta é de contexto: a proposta pressupõe conectividade, energia e capacidade técnica local que não estão disponíveis de forma uniforme no país, e não inclui análise de custo de aquisição, implantação e operação dos totens. Em consequência, nenhuma afirmação sobre redução da superlotação, resolutividade, tempo de espera ou segurança operacional pode ser derivada deste trabalho.
