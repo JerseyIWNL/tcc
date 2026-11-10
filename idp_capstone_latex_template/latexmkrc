@@ -1,0 +1,2 @@
+# Overleaf e latexmk: compilar com XeLaTeX (exigido pelo template do IDP)
+$pdf_mode = 5;
