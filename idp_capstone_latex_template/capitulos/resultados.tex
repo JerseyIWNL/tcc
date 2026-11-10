@@ -241,6 +241,7 @@ Procedimentos & [0..N] & Registro do médico, quando houver \\
 Prescrição no atendimento & [1..1] & Estação do médico, com documento assinado digitalmente \\
 Plano de cuidados e recomendações & [0..1] & Orientações registradas pelo médico e enviadas ao paciente \\
 Dados do desfecho & [0..1] & Desfecho registrado, inclusive encaminhamento presencial \\
+Informações adicionais ou complementares & [0..1] & Registro do médico, quando houver \\
 \bottomrule
 \end{tabularx}
 \fonte{Elaboração própria, a partir da Portaria SAES/MS n.º 234/2022 \cite{portaria234}.}
@@ -346,7 +347,7 @@ Como exemplos de implementação compatíveis com essas decisões, podem ser cit
 
 A checagem de consistência confirmou que os 19 requisitos da Tabela~\ref{tab:rastreabilidade} estão associados a pelo menos um componente e que todos os 16 componentes respondem a pelo menos um requisito. Como explicado na metodologia, esse resultado decorre das regras de construção da matriz e indica apenas que ela está completa.
 
-O teste de cobertura normativa, que parte dos itens da lista de verificação em direção aos requisitos, é mais informativo. Dos 39 itens, 33 estão associados a pelo menos um requisito. Os seis itens sem requisito correspondente são todos de natureza organizacional: a observância de outras normas na operação (art. 26-G, II, da Lei n.º 14.510/2022), a sede e o responsável técnico da plataforma (art. 17 da Resolução CFM n.º 2.314/2022) e, na LGPD, o atendimento aos direitos do titular (art. 18), o relatório de impacto (art. 38), a indicação de encarregado (art. 41) e a comunicação de incidentes (art. 48). O teste revela, portanto, uma lacuna real: obrigações que a arquitetura não cumpre sozinha ficaram fora dos requisitos. Em uma próxima iteração, elas devem ser incluídas como requisitos de implantação, com responsável institucional definido. As matrizes estão nos Apêndices~\ref{ap:cobertura} e \ref{ap:checklist}.
+O teste de cobertura normativa, que parte dos itens da lista de verificação em direção aos requisitos, é mais informativo. Dos 39 itens, 33 estão associados a pelo menos um requisito. Os seis itens sem requisito correspondente são todos de natureza organizacional: a observância de outras normas na operação (art. 26-G, II, da Lei n.º 14.510/2022), a sede e o responsável técnico da plataforma (art. 17 da Resolução CFM n.º 2.314/2022) e, na LGPD, o atendimento aos direitos do titular (art. 18), o relatório de impacto (art. 38), a indicação de encarregado (art. 41) e a comunicação de incidentes (art. 48). No caso do art. 48, a camada de segurança prevê um processo de resposta a incidentes (Seção~\ref{sec:res-componentes}), mas nenhum requisito da matriz o exige, e a comunicação à autoridade nacional e ao titular depende da instituição que operar o sistema. O teste revela, portanto, uma lacuna real: obrigações que a arquitetura não cumpre sozinha ficaram fora dos requisitos. Em uma próxima iteração, elas devem ser incluídas como requisitos de implantação, com responsável institucional definido. As matrizes estão nos Apêndices~\ref{ap:cobertura} e \ref{ap:checklist}.
 
 \subsubsecao{Conformidade}
 
@@ -402,7 +403,7 @@ C3. RNDS indisponível no momento do envio do RAC & Enfileiramento cifrado, reen
 C4. Token expira durante um lote de envios & Renovação do token e repetição única da requisição & Atendido em projeto, com base no comportamento documentado (EHR-ERR882) \\
 C5. Mesmo RAC enviado duas vezes após falha de rede & Idempotência pelo identificador do documento e conferência no registro local antes de tratar o erro de identificador repetido como envio anterior & Atendido em projeto, com base no comportamento documentado (EHR-ERR866) \\
 C6. Terceiro observa a tela do totem na sala de espera & Filtro de privacidade, fone, posicionamento reservado e exibição parcial de identificadores & Parcialmente atendido; depende do leiaute da unidade \\
-C7. Publicação de nova versão dos perfis nacionais & Alteração restrita ao gateway FHIR, sem propagação às demais camadas & Atendido em projeto: o isolamento é visível na estrutura, pois só o gateway conhece os perfis; o grau de acoplamento não foi medido \\
+C7. Publicação de nova versão dos perfis nacionais & Alteração restrita ao gateway FHIR, sem propagação às demais camadas & Atendido em projeto: o isolamento é visível na estrutura, pois só o gateway conhece os perfis \\
 C8. Paciente com deficiência ou baixa literacia digital & Interface acessível, leitura em voz e atendimento assistido por profissional da unidade & Não verificável: depende de estudo de usabilidade com usuários reais \\
 C9. Tentativa de uso do totem sem triagem presencial & Bloqueio pela regra de elegibilidade vinculada ao registro da triagem & Atendido em projeto \\
 C10. Pessoa na sala de espera tenta usar o totem com o CPF de um paciente triado & Liberação condicionada ao código de atendimento de uso único gerado na triagem e conferência da identidade pelo médico & Atendido em projeto \\

@@ -161,6 +161,32 @@
 }
 
 % ---------------------------------------------------------------------
+% Subseções: mesma aparência da classe, mas com a entrada do sumário
+% no mesmo parágrafo do título. Na classe original, a entrada ficava num
+% parágrafo vazio separado e, quando o título caía no topo de uma página,
+% o sumário registrava a página anterior. \needspace evita título órfão.
+% ---------------------------------------------------------------------
+\usepackage{needspace}
+\renewcommand{\subsecao}[1]{%
+  \refstepcounter{subsecnum}%
+  \par\vspace{1.5ex}%
+  \needspace{4\baselineskip}%
+  {\large\noindent\phantomsection
+   \addcontentsline{toc}{subsection}{\arabic{secnum}.\arabic{subsecnum} #1}%
+   \color{fundo_idp}\bfseries\MakeUppercase{\thesubsecnum\quad #1}}\par\nopagebreak
+  \vspace{1ex}%
+}
+\renewcommand{\subsubsecao}[1]{%
+  \refstepcounter{subsubsecnum}%
+  \par\vspace{1.2ex}%
+  \needspace{4\baselineskip}%
+  {\normalsize\noindent\phantomsection
+   \addcontentsline{toc}{subsubsection}{\thesubsubsecnum\ #1}%
+   \color{fundo_idp}\bfseries\thesubsubsecnum\quad #1}\par\nopagebreak
+  \vspace{0.5ex}%
+}
+
+% ---------------------------------------------------------------------
 % Lista de abreviaturas e siglas
 % ---------------------------------------------------------------------
 \newcommand{\listasiglas}{
