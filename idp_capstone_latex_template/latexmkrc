@@ -1,2 +1,5 @@
-# Overleaf e latexmk: compilar com XeLaTeX (exigido pelo template do IDP)
+# O template do IDP exige XeLaTeX (usa fontspec).
+# As duas linhas abaixo forçam o XeLaTeX mesmo quando o Overleaf
+# estiver configurado com pdfLaTeX (ele chama latexmk -pdf).
 $pdf_mode = 5;
+$pdflatex = 'xelatex %O %S';
